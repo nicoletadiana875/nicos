@@ -1,0 +1,198 @@
+:root {
+  --bg-950: #12100f;
+  --bg-900: #1a1716;
+  --bg-850: #24201d;
+  --surface: rgba(37, 31, 27, 0.68);
+  --surface-strong: rgba(44, 37, 32, 0.84);
+  --surface-light: rgba(60, 51, 44, 0.62);
+  --ink-100: #efe3d2;
+  --ink-200: #ddc7ad;
+  --ink-350: #bf9b76;
+  --text-200: #d8c7b4;
+  --text-300: #baa691;
+  --accent-amber: #d79a55;
+  --accent-gold: #f1c07a;
+  --accent-glow: #ffd7a8;
+  --accent-tech: #8dd8ea;
+  --line: rgba(238, 214, 188, 0.14);
+  --radius-lg: 32px;
+  --radius-md: 22px;
+  --shadow-card: 0 22px 36px rgba(0, 0, 0, 0.34);
+  --shadow-soft: 0 38px 80px rgba(0, 0, 0, 0.5);
+  --container: min(1180px, calc(100% - 48px));
+  --font-heading: "Iowan Old Style", "Palatino Linotype", "Book Antiqua", Georgia, serif;
+  --font-body: Aptos, "Segoe UI", Tahoma, sans-serif;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  position: relative;
+  margin: 0;
+  color: var(--text-200);
+  font-family: var(--font-body);
+  background:
+    radial-gradient(circle at 74% 22%, rgba(255, 201, 136, 0.16) 0%, rgba(235, 156, 82, 0.05) 28%, transparent 46%),
+    radial-gradient(circle at 14% 3%, rgba(215, 151, 85, 0.06) 0%, transparent 24%),
+    linear-gradient(180deg, #171210 0%, #110e0d 46%, #0d0b0a 100%);
+  background-size: auto, auto, cover;
+  background-position: 74% 22%, 14% 3%, center;
+  background-repeat: no-repeat;
+}
+
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  background: url("/images/italy-night-main.jpg") center/cover no-repeat;
+  filter: blur(1.6px) saturate(0.94) brightness(0.54);
+  transform: scale(1.03);
+  z-index: -2;
+  pointer-events: none;
+}
+
+body::after {
+  content: "";
+  position: fixed;
+  inset: 0;
+  background:
+    linear-gradient(180deg, rgba(7, 6, 6, 0.56), rgba(10, 8, 7, 0.74)),
+    radial-gradient(720px 360px at 72% 18%, rgba(255, 187, 109, 0.19), transparent 72%);
+  z-index: -1;
+  pointer-events: none;
+}
+
+main {
+  position: relative;
+  overflow: clip;
+  isolation: isolate;
+}
+
+main::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, rgba(12, 10, 9, 0.16) 0%, rgba(11, 9, 8, 0.5) 100%);
+  opacity: 1;
+  pointer-events: none;
+  z-index: 0;
+}
+
+main::after {
+  content: none;
+}
+
+a {
+  color: inherit;
+}
+
+img {
+  max-width: 100%;
+}
+
+section {
+  position: relative;
+  z-index: 2;
+}
+
+.container {
+  width: var(--container);
+  margin-inline: auto;
+}
+
+h1,
+h2,
+h3 {
+  margin: 0;
+  color: var(--ink-100);
+  line-height: 1.08;
+}
+
+h1,
+h2 {
+  font-family: var(--font-heading);
+  font-weight: 700;
+  letter-spacing: -0.025em;
+}
+
+h1 {
+  font-size: clamp(2.9rem, 4vw, 4.85rem);
+}
+
+h2 {
+  font-size: clamp(2rem, 2.9vw, 3.15rem);
+}
+
+h3 {
+  font-size: 1.16rem;
+}
+
+p,
+li,
+label,
+input,
+textarea,
+button {
+  font-size: 1rem;
+  line-height: 1.72;
+}
+
+p {
+  color: var(--text-300);
+}
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 52px;
+  padding: 0 22px;
+  border-radius: 999px;
+  border: 1px solid transparent;
+  text-decoration: none;
+  font-weight: 700;
+  letter-spacing: 0.01em;
+  transition: transform 0.24s ease, border-color 0.24s ease, background 0.24s ease, box-shadow 0.24s ease;
+  cursor: pointer;
+}
+
+.btn:hover {
+  transform: translateY(-2px);
+}
+
+.btn-primary {
+  background: linear-gradient(145deg, #cb8e4b, #9e6633);
+  color: #1c1510;
+  box-shadow: 0 14px 30px rgba(188, 123, 59, 0.34), 0 0 24px rgba(233, 176, 110, 0.26);
+}
+
+.btn-secondary {
+  background: rgba(58, 49, 43, 0.74);
+  color: var(--ink-100);
+  border-color: rgba(226, 194, 160, 0.18);
+  box-shadow: var(--shadow-card);
+}
+
+@media (max-width: 640px) {
+  main::before {
+    opacity: 0.94;
+  }
+
+  :root {
+    --container: min(1180px, calc(100% - 32px));
+  }
+
+  h1 {
+    font-size: clamp(2.35rem, 9vw, 3.55rem);
+  }
+
+  h2 {
+    font-size: clamp(1.85rem, 7vw, 2.45rem);
+  }
+}
