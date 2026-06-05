@@ -25,3 +25,13 @@ pnpm-lock.yaml
 
 # Vercel
 .vercel/
+
+# Claude memory
+.claude/
+
+# Script e screenshot di sviluppo
+screenshot-*.png
+mob-*.png
+take-screenshot.js
+make-bulb-landscape.js
+ss.js
