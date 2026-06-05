@@ -5,17 +5,6 @@ export default function Footer() {
   return (
     <footer className={styles.footer}>
       <div className="container">
-        {/* Riga principale: brand + email */}
-        <div className={styles.footerTop}>
-          <div>
-            <p className={styles.footerBrand}>{site.consultantName}</p>
-            <p className={styles.footerRole}>{site.brand}</p>
-          </div>
-          <a href={`mailto:${site.email}`} className={styles.footerEmail}>
-            {site.email}
-          </a>
-        </div>
-
         {/* Riga copyright: torna su a sinistra, lontano dal pulsante WhatsApp */}
         <div className={styles.footerBottom}>
           <div>

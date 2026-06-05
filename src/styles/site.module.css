@@ -285,6 +285,8 @@
 }
 
 .heroHighlightCard {
+  gap: 10px;
+  align-items: center;
   padding: clamp(16px, 1.7vw, 22px);
   border-radius: var(--radius-md);
   border: 1px solid rgba(248, 215, 178, 0.12);
@@ -664,6 +666,22 @@
 .serviceCard,
 .pillarCard {
   padding: clamp(20px, 2vw, 28px);
+}
+
+.pillarCard {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.pillarHeader {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.pillarHeader h3 {
+  margin: 0;
 }
 
 .serviceCardHeader {
@@ -1270,5 +1288,33 @@
   .whatsappFloat {
     right: 14px;
     bottom: 14px;
+    font-size: 0.82rem;
+    min-height: 44px;
+    padding: 0 16px;
+  }
+
+  /* Mercati: 1 colonna su mobile */
+  .marketCardsRow {
+    grid-template-columns: 1fr;
+  }
+
+  /* Voci nav nascoste su mobile: rimane solo il CTA "Parla con me" */
+  .nav {
+    display: none;
+  }
+
+  /* Hero bottom row: 1 colonna */
+  .heroBottomRow {
+    grid-template-columns: 1fr;
+  }
+
+  /* Form: 1 colonna */
+  .formRow {
+    grid-template-columns: 1fr;
+  }
+
+  /* Footer bottom: compatto */
+  .footerCopy {
+    font-size: 0.82rem;
   }
 }

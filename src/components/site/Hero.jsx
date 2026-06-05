@@ -58,9 +58,6 @@ export default function Hero() {
               <span>{heroContent.panelTitle}</span>
               <strong>Struttura chiara e supporto diretto</strong>
             </div>
-            <a href={`mailto:${site.email}`} className={styles.inlineLink}>
-              {site.email}
-            </a>
           </div>
 
           <div className={styles.heroAudienceGrid}>

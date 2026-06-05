@@ -1,6 +1,6 @@
 ﻿export const site = {
   brand: "Consulente Energetico",
-  consultantName: "Nicoleta Diana",
+  consultantName: "Nicoleta Diana Stinga",
   tagline: "Consulenza commerciale luce e gas per imprese e professionisti",
   email: "nicoletadiana875@gmail.com",
   whatsappLabel: "+39 389 090 9665",

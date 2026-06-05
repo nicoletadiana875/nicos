@@ -16,10 +16,12 @@ export default function WhyChooseMe() {
         <div className={styles.pillarsGrid}>
           {whyChooseContent.pillars.map((item) => (
             <article key={item.title} className={styles.pillarCard}>
-              <span className={styles.iconBadge}>
-                <Icon name={item.icon} className={styles.icon} />
-              </span>
-              <h3>{item.title}</h3>
+              <div className={styles.pillarHeader}>
+                <span className={styles.iconBadge}>
+                  <Icon name={item.icon} className={styles.icon} />
+                </span>
+                <h3>{item.title}</h3>
+              </div>
               <p>{item.text}</p>
             </article>
           ))}
