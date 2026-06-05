@@ -1,4 +1,5 @@
 import { site } from "@/content/site";
+import LiquidButton from "@/components/site/LiquidButton";
 import styles from "@/styles/site.module.css";
 
 export default function Header() {
@@ -9,7 +10,7 @@ export default function Header() {
           <span className={styles.logoMark}>CE</span>
           <span className={styles.logoText}>
             <strong>{site.brand}</strong>
-            <small>{site.consultantName} | {site.tagline}</small>
+            <small>{site.consultantName}</small>
           </span>
         </a>
 
@@ -21,9 +22,9 @@ export default function Header() {
           ))}
         </nav>
 
-        <a href="#contatti" className={styles.headerCta}>
+        <LiquidButton href="#contatti" className={styles.headerLiquidCta}>
           Parla con me
-        </a>
+        </LiquidButton>
       </div>
     </header>
   );

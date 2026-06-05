@@ -4,20 +4,31 @@ import styles from "@/styles/site.module.css";
 export default function Footer() {
   return (
     <footer className={styles.footer}>
-      <div className={`container ${styles.footerInner}`}>
-        <div>
-          <p className={styles.footerBrand}>{site.brand}</p>
-          <p className={styles.footerText}>{site.tagline}.</p>
-        </div>
-
-        <div className={styles.footerMeta}>
-          <a href={`mailto:${site.email}`} className={styles.footerText}>
+      <div className="container">
+        {/* Riga principale: brand + email */}
+        <div className={styles.footerTop}>
+          <div>
+            <p className={styles.footerBrand}>{site.consultantName}</p>
+            <p className={styles.footerRole}>{site.brand}</p>
+          </div>
+          <a href={`mailto:${site.email}`} className={styles.footerEmail}>
             {site.email}
           </a>
-          <p className={styles.footerText}>Copyright 2026. Tutti i diritti riservati.</p>
-          <a href="#home" className={styles.footerLink}>
-            Torna su
-          </a>
+        </div>
+
+        {/* Riga copyright: torna su a sinistra, lontano dal pulsante WhatsApp */}
+        <div className={styles.footerBottom}>
+          <div>
+            <a href="#home" className={styles.footerBackTop} aria-label="Torna in cima">
+              ↑ Torna su
+            </a>
+            <p className={styles.footerCopy}>
+              © 2026 {site.consultantName} – {site.brand}
+            </p>
+            <p className={styles.footerSubline}>
+              Consulenza professionale luce e gas per privati e aziende.
+            </p>
+          </div>
         </div>
       </div>
     </footer>

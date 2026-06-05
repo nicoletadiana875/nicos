@@ -10,17 +10,19 @@
 .headerInner {
   min-height: 96px;
   display: grid;
-  grid-template-columns: minmax(220px, auto) minmax(0, 1fr) auto;
+  grid-template-columns: minmax(200px, 260px) minmax(0, 1fr) auto;
   align-items: center;
   gap: clamp(20px, 2.3vw, 38px);
   padding: 0 clamp(10px, 1.6vw, 24px);
 }
 
 .logo {
-  display: inline-flex;
+  display: flex;
   align-items: center;
   gap: 14px;
   text-decoration: none;
+  min-width: 0;
+  overflow: hidden;
 }
 
 .logoMark {
@@ -42,6 +44,8 @@
 .logoText {
   display: grid;
   gap: 2px;
+  min-width: 0;
+  overflow: hidden;
 }
 
 .logoText strong {
@@ -57,6 +61,8 @@
   letter-spacing: 0.04em;
   text-transform: uppercase;
   white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .nav {
@@ -126,10 +132,16 @@
   grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
   gap: clamp(28px, 3.6vw, 56px);
   align-items: stretch;
+  position: relative;
+  z-index: 1;
 }
 
 .heroCopy {
   padding-top: clamp(8px, 1.2vw, 18px);
+}
+
+.heroCopy h1 {
+  font-size: clamp(2rem, 2.9vw, 3.15rem);
 }
 
 .heroKicker,
@@ -168,10 +180,98 @@
   margin-top: clamp(20px, 2.6vw, 34px);
 }
 
+/* ── Liquid Glass Button ─────────────────────── */
+.liquidBtn {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 52px;
+  padding: 0 32px;
+  border-radius: 999px;
+  border: 1px solid rgba(255, 224, 170, 0.45);
+  border-top-color: rgba(255, 235, 190, 0.7);
+  background: rgba(255, 255, 255, 0.06);
+  backdrop-filter: blur(18px) saturate(160%);
+  -webkit-backdrop-filter: blur(18px) saturate(160%);
+  cursor: pointer;
+  text-decoration: none;
+  overflow: hidden;
+  transition: box-shadow 0.35s ease, transform 0.25s ease;
+  box-shadow:
+    0 0 28px rgba(241, 192, 122, 0.55),
+    0 0 70px rgba(241, 192, 122, 0.22),
+    0 0 120px rgba(241, 192, 122, 0.08),
+    0 6px 24px rgba(0, 0, 0, 0.35),
+    inset 0 1px 0 rgba(255, 235, 190, 0.5),
+    inset 0 -1px 0 rgba(0, 0, 0, 0.3),
+    inset 1px 0 0 rgba(255, 220, 160, 0.12),
+    inset -1px 0 0 rgba(255, 220, 160, 0.12);
+}
+
+.liquidBtn:hover {
+  transform: translateY(-2px);
+  box-shadow:
+    0 0 42px rgba(241, 192, 122, 0.72),
+    0 0 100px rgba(241, 192, 122, 0.32),
+    0 0 160px rgba(241, 192, 122, 0.12),
+    0 8px 32px rgba(0, 0, 0, 0.4),
+    inset 0 1px 0 rgba(255, 235, 190, 0.6),
+    inset 0 -1px 0 rgba(0, 0, 0, 0.3),
+    inset 1px 0 0 rgba(255, 220, 160, 0.15),
+    inset -1px 0 0 rgba(255, 220, 160, 0.15);
+}
+
+.liquidBtnGlass {
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  backdrop-filter: blur(14px) url("#liquid-glass-filter");
+  -webkit-backdrop-filter: blur(14px);
+  z-index: 0;
+}
+
+.liquidBtnGlow {
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  background:
+    radial-gradient(ellipse 90% 55% at 50% -5%, rgba(255, 220, 150, 0.28) 0%, transparent 65%),
+    radial-gradient(ellipse 60% 40% at 50% 110%, rgba(241, 192, 122, 0.12) 0%, transparent 70%);
+  z-index: 1;
+  pointer-events: none;
+}
+
+.liquidBtnContent {
+  position: relative;
+  z-index: 2;
+  color: #ffe8c0;
+  font-weight: 750;
+  font-size: 1rem;
+  letter-spacing: 0.02em;
+  white-space: nowrap;
+  text-shadow: 0 0 14px rgba(241, 192, 122, 0.55);
+}
+
+.headerLiquidCta {
+  min-height: 46px;
+  padding: 0 22px;
+  font-size: 0.9rem;
+  min-width: 132px;
+}
+
+.heroBottomRow {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  gap: clamp(28px, 3.6vw, 56px);
+  margin-top: clamp(20px, 2.5vw, 30px);
+  position: relative;
+  z-index: 1;
+}
+
 .heroHighlights {
   display: grid;
   gap: 14px;
-  margin-top: clamp(24px, 3vw, 42px);
 }
 
 .heroHighlightCard,
@@ -216,7 +316,7 @@
 }
 
 .heroFigure {
-  margin: 0;
+  margin: clamp(40px, 4.2vw, 54px) 0 0;
   overflow: hidden;
   border-radius: 32px;
   border: 1px solid rgba(248, 215, 178, 0.16);
@@ -231,13 +331,13 @@
   height: 100%;
   min-height: 0;
   background:
-    radial-gradient(440px 240px at 50% 34%, rgba(255, 194, 124, 0.2), transparent 72%),
-    linear-gradient(180deg, rgba(16, 13, 11, 0.38), rgba(10, 8, 7, 0.64)),
+    radial-gradient(500px 280px at 50% 38%, rgba(255, 180, 80, 0.18), transparent 68%),
+    linear-gradient(180deg, rgba(16, 13, 11, 0.22), rgba(10, 8, 7, 0.48)),
     url("/images/italy-night-main.jpg");
   background-size: cover;
   background-position: center 36%;
   background-repeat: no-repeat;
-  filter: saturate(0.84) contrast(1.04) brightness(0.76);
+  filter: saturate(1.45) contrast(1.12) brightness(0.88);
 }
 
 .heroInfoCard {
@@ -394,20 +494,26 @@
   display: grid;
   align-content: start;
   gap: clamp(12px, 1.4vw, 18px);
+}
+
+.aboutCopy {
+  height: auto;
+}
+
+.aboutAside {
   height: 100%;
 }
 
 .aboutAside {
-  grid-template-rows: auto;
   height: 100%;
+  display: flex;
+  flex-direction: column;
 }
 
 .aboutMediaColumn {
   width: 100%;
-  height: 100%;
-  max-height: 500px;
+  flex: 1;
   min-height: 0;
-  overflow: hidden;
   display: grid;
   grid-template-rows: 1fr 1fr;
   gap: 12px;
@@ -454,6 +560,7 @@
 
 .aboutFigure {
   margin: 0;
+  position: relative;
   overflow: hidden;
   border-radius: 24px;
   border: 1px solid rgba(248, 215, 178, 0.07);
@@ -465,23 +572,22 @@
 
 .chiSonoVisual {
   width: 100%;
-  max-width: 420px;
   height: 100%;
-  max-height: none;
   overflow: hidden;
   border-radius: 28px;
-  justify-self: center;
   min-height: 0;
-  aspect-ratio: 16 / 10;
 }
 
 .chiSonoVisualImage {
+  position: absolute;
+  inset: 0;
   width: 100%;
   height: 100%;
   object-fit: cover;
   object-position: center;
   display: block;
 }
+
 
 .visualFrame {
   width: 100%;
@@ -599,6 +705,13 @@
   gap: clamp(12px, 1.4vw, 18px);
 }
 
+.marketCardsRow {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: clamp(12px, 1.4vw, 18px);
+  margin-bottom: clamp(12px, 1.4vw, 18px);
+}
+
 .marketCard,
 .marketMetaCard,
 .marketNoteCard {
@@ -639,6 +752,133 @@
 
 .marketNoteCard h3 {
   margin-bottom: 12px;
+}
+
+.marketSource {
+  display: block;
+  margin-top: 10px;
+  font-size: 0.72rem;
+  color: rgba(234, 214, 191, 0.48);
+  letter-spacing: 0.02em;
+}
+
+.marketNote {
+  margin: 4px 0 0;
+  font-size: 0.78rem;
+  color: rgba(234, 214, 191, 0.44);
+  font-style: italic;
+  letter-spacing: 0.01em;
+}
+
+/* ── Charts ─────────────────────────────────── */
+.chartWrapper {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: clamp(14px, 1.6vw, 22px);
+  margin-top: clamp(24px, 2.8vw, 40px);
+}
+
+.chartCard {
+  padding: clamp(18px, 2vw, 28px);
+  border-radius: 24px;
+  border: 1px solid rgba(255, 221, 183, 0.12);
+  background: rgba(255, 255, 255, 0.03);
+}
+
+.chartHeader {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 18px;
+}
+
+.chartBadge {
+  display: inline-block;
+  padding: 3px 10px;
+  border-radius: 999px;
+  border: 1px solid rgba(241, 192, 122, 0.3);
+  color: var(--accent-gold);
+  font-size: 0.72rem;
+  font-weight: 800;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+
+.chartLabel {
+  margin: 0;
+  font-size: 0.78rem;
+  color: rgba(234, 214, 191, 0.6);
+  line-height: 1.4;
+}
+
+.chartLabel span {
+  color: rgba(234, 214, 191, 0.35);
+}
+
+.chartLoading {
+  height: 200px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: rgba(234, 214, 191, 0.3);
+  font-size: 0.85rem;
+}
+
+.chartAvg {
+  margin: 12px 0 0;
+  font-size: 0.75rem;
+  color: rgba(234, 214, 191, 0.45);
+}
+
+.chartAvg strong {
+  color: rgba(241, 192, 122, 0.75);
+  font-weight: 600;
+}
+
+.chartTooltip {
+  padding: 10px 14px;
+  border-radius: 12px;
+  background: rgba(22, 17, 14, 0.96);
+  border: 1px solid rgba(255, 221, 183, 0.2);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4);
+}
+
+.chartTooltipDate {
+  margin: 0 0 3px;
+  font-size: 0.72rem;
+  color: rgba(234, 214, 191, 0.5);
+}
+
+.chartTooltipValue {
+  margin: 0;
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: #f1c07a;
+}
+
+.chartPsvDisplay {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  min-height: 200px;
+  gap: 16px;
+}
+
+.chartPsvValue {
+  margin: 0;
+  font-size: clamp(2rem, 3vw, 2.8rem);
+  font-family: var(--font-heading);
+  color: var(--ink-100);
+  line-height: 1;
+}
+
+.chartPsvNote {
+  margin: 0;
+  font-size: 0.78rem;
+  color: rgba(234, 214, 191, 0.4);
+  font-style: italic;
+  line-height: 1.6;
 }
 
 .marketNoteCard p {
@@ -754,42 +994,88 @@
 }
 
 .footer {
-  padding: 34px 0 40px;
+  padding: 52px 0 96px;
   border-top: 1px solid var(--line);
-  background: rgba(13, 11, 10, 0.75);
+  background: rgba(13, 11, 10, 0.8);
 }
 
-.footerInner {
+/* Riga superiore: brand sinistra, contatti destra */
+.footerTop {
   display: flex;
-  align-items: center;
+  align-items: flex-end;
   justify-content: space-between;
   gap: 24px;
+  padding-bottom: 32px;
+  margin-bottom: 28px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.06);
 }
 
 .footerBrand {
-  margin: 0 0 6px;
+  margin: 0 0 5px;
   color: var(--ink-100);
   font-family: var(--font-heading);
-  font-size: 1.08rem;
+  font-size: 1.15rem;
   font-weight: 700;
+  letter-spacing: 0.01em;
 }
 
-.footerMeta {
-  display: grid;
-  justify-items: end;
-  gap: 6px;
+.footerRole {
+  margin: 0;
+  color: var(--ink-350);
+  font-size: 0.78rem;
+  font-weight: 500;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  opacity: 0.8;
 }
 
-.footerText {
+.footerEmail {
+  color: var(--text-200);
+  font-size: 0.9rem;
+  text-decoration: none;
+  transition: color 0.2s;
+  align-self: flex-end;
+}
+
+.footerEmail:hover {
+  color: var(--ink-350);
+}
+
+/* Riga copyright — tutto a sinistra, lontano dal pulsante WhatsApp fisso (destra) */
+.footerBottom {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.footerBackTop {
+  display: inline-block;
+  margin-bottom: 10px;
+  color: var(--text-300);
+  font-size: 0.78rem;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-decoration: none;
+  text-transform: uppercase;
+  transition: color 0.2s;
+}
+
+.footerBackTop:hover {
+  color: var(--ink-100);
+}
+
+.footerCopy {
+  margin: 0;
+  color: var(--text-200);
+  font-size: 0.88rem;
+  font-weight: 500;
+}
+
+.footerSubline {
   margin: 0;
   color: var(--text-300);
-  text-decoration: none;
-}
-
-.footerLink {
-  color: var(--ink-100);
-  text-decoration: none;
-  font-weight: 700;
+  font-size: 0.78rem;
+  opacity: 0.7;
 }
 
 .whatsappFloat {
@@ -797,19 +1083,16 @@
   right: 18px;
   bottom: 18px;
   z-index: 40;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
   min-height: 50px;
-  padding: 0 18px;
-  border-radius: 999px;
-  background: linear-gradient(145deg, #3f2f24, #241b15);
-  color: #ffedd9;
-  text-decoration: none;
+  padding: 0 20px;
   font-size: 0.92rem;
-  font-weight: 800;
-  border: 1px solid rgba(255, 220, 181, 0.2);
-  box-shadow: 0 14px 28px rgba(0, 0, 0, 0.36), 0 0 20px rgba(233, 176, 110, 0.16);
+  transition: opacity 0.25s ease, transform 0.25s ease;
+}
+
+.whatsappFloatHidden {
+  opacity: 0;
+  pointer-events: none;
+  transform: translateY(8px);
 }
 
 @keyframes cinematicReveal {
@@ -913,14 +1196,19 @@
     grid-template-columns: 1fr;
   }
 
-  .heroInfoHeader,
-  .footerInner {
+  .heroInfoHeader {
     flex-direction: column;
     align-items: flex-start;
   }
 
-  .footerMeta {
-    justify-items: start;
+  .footerTop {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 20px;
+  }
+
+  .footerEmail {
+    align-self: flex-start;
   }
 }
 

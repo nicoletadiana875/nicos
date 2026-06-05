@@ -2,24 +2,72 @@
 
 import { useState } from "react";
 import Icon from "@/components/site/Icon";
+import LiquidButton from "@/components/site/LiquidButton";
 import SectionHeading from "@/components/site/SectionHeading";
 import { contactContent, site } from "@/content/site";
 import styles from "@/styles/site.module.css";
 
+const MAX_FILE_MB = 5;
+const ALLOWED_TYPES = ["application/pdf", "image/jpeg", "image/png"];
+
 export default function Contact() {
   const [feedback, setFeedback] = useState("");
+  const [isError, setIsError] = useState(false);
 
   const onSubmit = (event) => {
     event.preventDefault();
     const form = event.currentTarget;
+    const data = new FormData(form);
 
-    if (!form.checkValidity()) {
-      setFeedback("Compila tutti i campi obbligatori.");
-      form.reportValidity();
+    // Honeypot anti-bot: se il campo nascosto è compilato, ignora silenziosamente
+    if (data.get("website")) {
+      setFeedback("Richiesta ricevuta.");
+      setIsError(false);
+      form.reset();
       return;
     }
 
+    const nome = data.get("nome")?.trim() ?? "";
+    const email = data.get("email")?.trim() ?? "";
+    const messaggio = data.get("messaggio")?.trim() ?? "";
+    const file = data.get("bolletta");
+
+    // Validazione lato client
+    if (!nome || nome.length < 2 || nome.length > 100) {
+      setFeedback("Inserisci un nome valido (2–100 caratteri).");
+      setIsError(true);
+      return;
+    }
+
+    const emailRe = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRe.test(email)) {
+      setFeedback("Inserisci un indirizzo email valido.");
+      setIsError(true);
+      return;
+    }
+
+    if (!messaggio || messaggio.length < 10 || messaggio.length > 2000) {
+      setFeedback("Il messaggio deve essere tra 10 e 2000 caratteri.");
+      setIsError(true);
+      return;
+    }
+
+    // Validazione file (tipo e dimensione)
+    if (file && file.size > 0) {
+      if (!ALLOWED_TYPES.includes(file.type)) {
+        setFeedback("Formato non supportato. Usa PDF, JPG o PNG.");
+        setIsError(true);
+        return;
+      }
+      if (file.size > MAX_FILE_MB * 1024 * 1024) {
+        setFeedback(`Il file supera i ${MAX_FILE_MB} MB consentiti.`);
+        setIsError(true);
+        return;
+      }
+    }
+
     setFeedback("Richiesta ricevuta. Ti ricontatterò al più presto.");
+    setIsError(false);
     form.reset();
   };
 
@@ -58,7 +106,7 @@ export default function Contact() {
               </span>
               <div>
                 <span>Documenti</span>
-                <p>Puoi allegare bollette in PDF o immagine per una prima analisi.</p>
+                <p>Puoi allegare bollette in PDF o immagine (max {MAX_FILE_MB} MB) per una prima analisi.</p>
               </div>
             </div>
           </div>
@@ -74,34 +122,78 @@ export default function Contact() {
         </div>
 
         <form className={styles.formCard} onSubmit={onSubmit} noValidate>
+          {/* Honeypot: invisibile agli utenti, i bot lo compilano */}
+          <input
+            type="text"
+            name="website"
+            tabIndex={-1}
+            autoComplete="off"
+            aria-hidden="true"
+            style={{ position: "absolute", left: "-9999px", opacity: 0, pointerEvents: "none" }}
+          />
+
           <div className={styles.formRow}>
             <div>
               <label htmlFor="nome">Nome e cognome</label>
-              <input id="nome" name="nome" type="text" required />
+              <input
+                id="nome"
+                name="nome"
+                type="text"
+                required
+                minLength={2}
+                maxLength={100}
+                autoComplete="name"
+              />
             </div>
 
             <div>
               <label htmlFor="email">Email</label>
-              <input id="email" name="email" type="email" required />
+              <input
+                id="email"
+                name="email"
+                type="email"
+                required
+                maxLength={254}
+                autoComplete="email"
+              />
             </div>
           </div>
 
           <div>
             <label htmlFor="messaggio">Messaggio</label>
-            <textarea id="messaggio" name="messaggio" rows="6" required />
+            <textarea
+              id="messaggio"
+              name="messaggio"
+              rows="6"
+              required
+              minLength={10}
+              maxLength={2000}
+            />
           </div>
 
           <div>
-            <label htmlFor="bolletta">Invia bolletta</label>
-            <input id="bolletta" name="bolletta" type="file" accept=".pdf,.jpg,.jpeg,.png" />
+            <label htmlFor="bolletta">Invia bolletta <small>(PDF, JPG, PNG — max {MAX_FILE_MB} MB)</small></label>
+            <input
+              id="bolletta"
+              name="bolletta"
+              type="file"
+              accept=".pdf,.jpg,.jpeg,.png"
+            />
           </div>
 
-          <button type="submit" className="btn btn-primary">
+          <LiquidButton type="submit" className={styles.headerLiquidCta}>
             Invia richiesta
-          </button>
-          <p className={styles.feedback} aria-live="polite">
-            {feedback}
-          </p>
+          </LiquidButton>
+
+          {feedback && (
+            <p
+              className={styles.feedback}
+              aria-live="polite"
+              style={{ color: isError ? "var(--color-danger, #e05c5c)" : undefined }}
+            >
+              {feedback}
+            </p>
+          )}
         </form>
       </div>
     </section>

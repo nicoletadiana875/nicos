@@ -1,10 +1,10 @@
 ﻿export const site = {
   brand: "Consulente Energetico",
-  consultantName: "Nome Cognome",
+  consultantName: "Nicoleta Diana",
   tagline: "Consulenza commerciale luce e gas per imprese e professionisti",
-  email: "consulenza@example.com",
-  whatsappLabel: "+39 000 000 0000",
-  whatsappUrl: "https://wa.me/390000000000",
+  email: "nicoletadiana875@gmail.com",
+  whatsappLabel: "+39 389 090 9665",
+  whatsappUrl: "https://wa.me/393890909665",
   nav: [
     { href: "#home", label: "Home" },
     { href: "#chi-sono", label: "Chi sono" },
@@ -25,7 +25,7 @@ export const heroContent = {
     label: "Richiedi una consulenza"
   },
   secondaryCta: {
-    href: "mailto:consulenza@example.com",
+    href: "mailto:nicoletadiana875@gmail.com",
     label: "Invia la tua bolletta"
   },
   highlights: [
@@ -54,7 +54,7 @@ export const heroContent = {
 export const aboutContent = {
   title: "Chi sono",
   description:
-    "Sono un consulente commerciale nel settore energia: trasformo dati complessi in decisioni chiare, sostenibili e coerenti con gli obiettivi del cliente.",
+    "Sono una consulente commerciale nel settore energia: trasformo dati complessi in decisioni chiare, sostenibili e coerenti con gli obiettivi del cliente.",
   paragraphs: [
     "Ogni progetto inizia dall'analisi della situazione reale: documenti di fornitura, consumi, condizioni economiche e struttura contrattuale.",
     "L'obiettivo è creare una strategia energetica leggibile, con un equilibrio concreto tra qualità del servizio, stabilità dei costi e continuità operativa."
@@ -148,7 +148,7 @@ export const whyChooseContent = {
     {
       icon: "support",
       title: "Relazione diretta",
-      text: "Un unico referente, tempi rapidi e supporto costante durante tutto il percorso."
+      text: "Un'unica referente, tempi rapidi e supporto costante durante tutto il percorso."
     }
   ],
   compareLeftTitle: "Senza metodo consulenziale",

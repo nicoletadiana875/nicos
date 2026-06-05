@@ -1,0 +1,12 @@
+{
+  "pun": {
+    "value": 102.34,
+    "unit": "€/MWh"
+  },
+  "psv": {
+    "value": 37.85,
+    "unit": "€/MWh"
+  },
+  "lastUpdate": "2026-06-05",
+  "source": "GME / ARERA"
+}
