@@ -187,13 +187,14 @@
   cursor: pointer;
   text-decoration: none;
   overflow: hidden;
-  transition: transform 0.25s ease, box-shadow 0.3s ease;
+  transition: transform 0.25s ease, box-shadow 0.3s ease, background 0.25s ease;
   box-shadow: 0 14px 30px rgba(22, 163, 74, 0.3), 0 2px 6px rgba(21, 128, 61, 0.25);
 }
 
 .liquidBtn:hover {
   transform: translateY(-2px);
-  box-shadow: 0 20px 38px rgba(22, 163, 74, 0.4), 0 4px 10px rgba(21, 128, 61, 0.3);
+  background: linear-gradient(145deg, rgba(246, 204, 120, 0.5), rgba(220, 166, 78, 0.36));
+  box-shadow: 0 20px 38px rgba(240, 190, 110, 0.22), 0 4px 10px rgba(220, 166, 78, 0.18);
 }
 
 .liquidBtnGlass {
@@ -1082,3 +1083,12 @@
 .marketCardsRow .marketCard:nth-child(2) span{color:var(--accent-amber)}.chartWrapper .chartCard:nth-child(2) .chartBadge{border-color:var(--accent-amber);color:var(--accent-amber)}
 
 .contactGrid{align-items:stretch;}
+/* testi chiari su sfondo scuro */
+#home .heroCopy h1{color:#eaf6ee;}
+#home .heroText{color:#c3d0c9;}
+#home .heroKicker{color:#7ee2a8;}
+#home .heroTrust li{color:#d5dfda;}
+#chi-sono .sectionHeading h2,#contatti .sectionHeading h2{color:#eaf6ee;}
+#chi-sono .sectionHeading p,#contatti .sectionHeading p{color:#c3d0c9;}
+#chi-sono .sectionEyebrow,#contatti .sectionEyebrow{color:#7ee2a8;}
+#chi-sono .paragraphStack p{color:#c3d0c9;}
