@@ -1,11 +1,22 @@
 import { NextResponse } from "next/server";
 import { rateLimit } from "@/lib/rateLimit";
+import { readFileSync } from "fs";
+import { join } from "path";
 
 const CORS_HEADERS = {
   "Access-Control-Allow-Origin": process.env.NEXT_PUBLIC_SITE_URL ?? "*",
   "Access-Control-Allow-Methods": "GET",
   "Cache-Control": "public, s-maxage=3600, stale-while-revalidate=600",
 };
+
+function readFallbackHistory() {
+  try {
+    const data = JSON.parse(readFileSync(join(process.cwd(), "data", "markets.json"), "utf-8"));
+    return data.history ?? [];
+  } catch {
+    return [];
+  }
+}
 
 async function fetchPunHistory(days = 30) {
   const end = new Date();
@@ -66,8 +77,8 @@ export async function GET(request) {
     );
   } catch {
     return NextResponse.json(
-      { history: [], status: "error" },
-      { status: 500, headers: CORS_HEADERS }
+      { history: readFallbackHistory(), status: "fallback" },
+      { headers: CORS_HEADERS }
     );
   }
 }

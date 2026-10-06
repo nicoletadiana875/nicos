@@ -73,128 +73,150 @@ export default function Contact() {
 
   return (
     <section id="contatti" className={styles.section}>
-      <div className={`container ${styles.contactGrid}`}>
-        <div>
-          <SectionHeading title={contactContent.title} description={contactContent.description} />
+      <div className="container">
+        <SectionHeading
+          title={contactContent.title}
+          description={contactContent.description}
+        />
 
-          <div className={styles.contactInfoCard}>
-            <div className={styles.contactInfoRow}>
-              <span className={styles.iconBadge}>
-                <Icon name="mail" className={styles.icon} />
-              </span>
-              <div>
-                <span>Email</span>
-                <a href={`mailto:${site.email}`}>{site.email}</a>
-              </div>
-            </div>
-
-            <div className={styles.contactInfoRow}>
-              <span className={styles.iconBadge}>
-                <Icon name="chat" className={styles.icon} />
-              </span>
-              <div>
-                <span>WhatsApp</span>
-                <a href={site.whatsappUrl} target="_blank" rel="noopener noreferrer">
-                  {site.whatsappLabel}
-                </a>
-              </div>
-            </div>
-
-            <div className={styles.contactInfoRow}>
-              <span className={styles.iconBadge}>
-                <Icon name="upload" className={styles.icon} />
-              </span>
-              <div>
-                <span>Documenti</span>
-                <p>Puoi allegare bollette in PDF o immagine (max {MAX_FILE_MB} MB) per una prima analisi.</p>
-              </div>
-            </div>
-          </div>
-
-          <div className={styles.contactProcessCard}>
-            <h3>Come funziona</h3>
-            <ol className={styles.processList}>
-              {contactContent.process.map((item) => (
-                <li key={item}>{item}</li>
-              ))}
-            </ol>
-          </div>
-        </div>
-
-        <form className={styles.formCard} onSubmit={onSubmit} noValidate>
-          {/* Honeypot: invisibile agli utenti, i bot lo compilano */}
-          <input
-            type="text"
-            name="website"
-            tabIndex={-1}
-            autoComplete="off"
-            aria-hidden="true"
-            style={{ position: "absolute", left: "-9999px", opacity: 0, pointerEvents: "none" }}
-          />
-
-          <div className={styles.formRow}>
-            <div>
-              <label htmlFor="nome">Nome e cognome</label>
-              <input
-                id="nome"
-                name="nome"
-                type="text"
-                required
-                minLength={2}
-                maxLength={100}
-                autoComplete="name"
-              />
-            </div>
-
-            <div>
-              <label htmlFor="email">Email</label>
-              <input
-                id="email"
-                name="email"
-                type="email"
-                required
-                maxLength={254}
-                autoComplete="email"
-              />
-            </div>
-          </div>
-
+        <div className={styles.contactGrid}>
           <div>
-            <label htmlFor="messaggio">Messaggio</label>
-            <textarea
-              id="messaggio"
-              name="messaggio"
-              rows="6"
-              required
-              minLength={10}
-              maxLength={2000}
-            />
+            <div className={styles.contactInfoCard}>
+              <div className={styles.contactInfoRow}>
+                <span className={styles.iconBadge}>
+                  <Icon name="mail" className={styles.icon} />
+                </span>
+                <div>
+                  <span>Email</span>
+                  <a href={`mailto:${site.email}`}>{site.email}</a>
+                </div>
+              </div>
+
+              <div className={styles.contactInfoRow}>
+                <span className={styles.iconBadge}>
+                  <Icon name="chat" className={styles.icon} />
+                </span>
+                <div>
+                  <span>WhatsApp</span>
+                  <a
+                    href={site.whatsappUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    {site.whatsappLabel}
+                  </a>
+                </div>
+              </div>
+
+              <div className={styles.contactInfoRow}>
+                <span className={styles.iconBadge}>
+                  <Icon name="upload" className={styles.icon} />
+                </span>
+                <div>
+                  <span>Documenti</span>
+                  <p>
+                    Puoi allegare bollette in PDF o immagine (max {MAX_FILE_MB}{" "}
+                    MB) per una prima analisi.
+                  </p>
+                </div>
+              </div>
+            </div>
+
+            <div className={styles.contactProcessCard}>
+              <h3>Come funziona</h3>
+              <ol className={styles.processList}>
+                {contactContent.process.map((item) => (
+                  <li key={item}>{item}</li>
+                ))}
+              </ol>
+            </div>
           </div>
 
-          <div>
-            <label htmlFor="bolletta">Invia bolletta <small>(PDF, JPG, PNG — max {MAX_FILE_MB} MB)</small></label>
+          <form className={styles.formCard} onSubmit={onSubmit} noValidate>
+            {/* Honeypot: invisibile agli utenti, i bot lo compilano */}
             <input
-              id="bolletta"
-              name="bolletta"
-              type="file"
-              accept=".pdf,.jpg,.jpeg,.png"
+              type="text"
+              name="website"
+              tabIndex={-1}
+              autoComplete="off"
+              aria-hidden="true"
+              style={{
+                position: "absolute",
+                left: "-9999px",
+                opacity: 0,
+                pointerEvents: "none",
+              }}
             />
-          </div>
 
-          <LiquidButton type="submit" className={styles.headerLiquidCta}>
-            Invia richiesta
-          </LiquidButton>
+            <div className={styles.formRow}>
+              <div>
+                <label htmlFor="nome">Nome e cognome</label>
+                <input
+                  id="nome"
+                  name="nome"
+                  type="text"
+                  required
+                  minLength={2}
+                  maxLength={100}
+                  autoComplete="name"
+                />
+              </div>
 
-          {feedback && (
-            <p
-              className={styles.feedback}
-              aria-live="polite"
-              style={{ color: isError ? "var(--color-danger, #e05c5c)" : undefined }}
-            >
-              {feedback}
-            </p>
-          )}
-        </form>
+              <div>
+                <label htmlFor="email">Email</label>
+                <input
+                  id="email"
+                  name="email"
+                  type="email"
+                  required
+                  maxLength={254}
+                  autoComplete="email"
+                />
+              </div>
+            </div>
+
+            <div>
+              <label htmlFor="messaggio">Messaggio</label>
+              <textarea
+                id="messaggio"
+                name="messaggio"
+                rows="4"
+                required
+                minLength={10}
+                maxLength={2000}
+              />
+            </div>
+
+            <div>
+              <label htmlFor="bolletta">
+                Invia bolletta{" "}
+                <small>(PDF, JPG, PNG — max {MAX_FILE_MB} MB)</small>
+              </label>
+              <input
+                id="bolletta"
+                name="bolletta"
+                type="file"
+                accept=".pdf,.jpg,.jpeg,.png"
+              />
+            </div>
+
+            <LiquidButton type="submit" className={styles.headerLiquidCta}>
+              Invia richiesta
+            </LiquidButton>
+
+            {feedback && (
+              <p
+                className={styles.feedback}
+                aria-live="polite"
+                style={{
+                  color: isError ? "var(--color-danger, #e05c5c)" : undefined,
+                }}
+              >
+                {feedback}
+              </p>
+            )}
+          </form>
+        </div>
       </div>
     </section>
   );

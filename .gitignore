@@ -34,3 +34,6 @@ mob-*.png
 take-screenshot.js
 make-bulb-landscape.js
 ss.js
+
+# Qwen Code
+.qwen/

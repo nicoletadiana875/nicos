@@ -63,39 +63,39 @@ export default function MarketChart({ psvValue }) {
             <LineChart data={history} margin={{ top: 8, right: 8, left: -8, bottom: 0 }}>
               <CartesianGrid
                 strokeDasharray="3 4"
-                stroke="rgba(255, 221, 183, 0.07)"
+                stroke="rgba(30, 41, 59, 0.1)"
                 vertical={false}
               />
               <XAxis
                 dataKey="label"
-                tick={{ fill: "rgba(234, 214, 191, 0.45)", fontSize: 11 }}
+                tick={{ fill: "rgba(51, 67, 95, 0.6)", fontSize: 11 }}
                 tickLine={false}
                 axisLine={false}
                 interval={5}
               />
               <YAxis
-                tick={{ fill: "rgba(234, 214, 191, 0.45)", fontSize: 11 }}
+                tick={{ fill: "rgba(51, 67, 95, 0.6)", fontSize: 11 }}
                 tickLine={false}
                 axisLine={false}
                 width={40}
                 domain={["auto", "auto"]}
                 tickFormatter={(v) => `${v}`}
               />
-              <Tooltip content={<ChartTooltip />} cursor={{ stroke: "rgba(241,192,122,0.18)", strokeWidth: 1 }} />
+              <Tooltip content={<ChartTooltip />} cursor={{ stroke: "rgba(22,163,74,0.22)", strokeWidth: 1 }} />
               {avg && (
                 <ReferenceLine
                   y={avg}
-                  stroke="rgba(241,192,122,0.25)"
+                  stroke="rgba(22,163,74,0.32)"
                   strokeDasharray="4 4"
                 />
               )}
               <Line
                 type="monotone"
                 dataKey="pun"
-                stroke="#f1c07a"
+                stroke="#16a34a"
                 strokeWidth={2}
                 dot={false}
-                activeDot={{ r: 4, fill: "#f1c07a", stroke: "#1a1716", strokeWidth: 2 }}
+                activeDot={{ r: 4, fill: "#16a34a", stroke: "#ffffff", strokeWidth: 2 }}
               />
             </LineChart>
           </ResponsiveContainer>

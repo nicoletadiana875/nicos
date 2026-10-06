@@ -32,20 +32,20 @@ export default function About() {
 
           <div className={styles.aboutAside}>
             <div className={styles.aboutMediaColumn}>
-              <figure className={styles.aboutFigure} aria-label="Lampadina premium accesa">
+              <figure className={styles.aboutFigure} aria-label="Energia rinnovabile">
                 <img
-                  src="/images/bulb-landscape.jpg"
-                  alt="Lampadina elegante accesa con glow caldo cinematografico"
+                  src="/images/natura-eco.png"
+                  alt="Energia rinnovabile, germoglio verde"
                   className={styles.chiSonoVisualImage}
                   loading="lazy"
                   decoding="async"
                 />
               </figure>
 
-              <figure className={styles.aboutFigure} aria-label="Fiamma premium elegante">
+              <figure className={styles.aboutFigure} aria-label="Risparmio ed energia verde">
                 <img
-                  src="/images/flame-premium.jpg"
-                  alt="Fiamma moderna con glow caldo"
+                  src="/images/emblema-eco.png"
+                  alt="Risparmio ed energia verde"
                   className={styles.chiSonoVisualImage}
                   loading="lazy"
                   decoding="async"
