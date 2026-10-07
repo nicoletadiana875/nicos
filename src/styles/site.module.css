@@ -193,8 +193,8 @@
 
 .liquidBtn:hover {
   transform: translateY(-2px);
-  background: linear-gradient(145deg, rgba(246, 204, 120, 0.5), rgba(220, 166, 78, 0.36));
-  box-shadow: 0 20px 38px rgba(240, 190, 110, 0.22), 0 4px 10px rgba(220, 166, 78, 0.18);
+  background: linear-gradient(145deg, #15803d, #0c4a24);
+  box-shadow: 0 20px 38px rgba(12, 74, 36, 0.4), 0 4px 10px rgba(12, 74, 36, 0.28);
 }
 
 .liquidBtnGlass {
@@ -1092,3 +1092,20 @@
 #chi-sono .sectionHeading p,#contatti .sectionHeading p{color:#c3d0c9;}
 #chi-sono .sectionEyebrow,#contatti .sectionEyebrow{color:#7ee2a8;}
 #chi-sono .paragraphStack p{color:#c3d0c9;}
+
+/* Dark theme full */
+.header{background:rgba(10,14,11,0.78);}
+.logoText strong{color:#eaf6ee;}
+.logoText small{color:#b8c6c0;}
+.nav a{color:#d5dfda;}
+.nav a:hover{color:#7ee2a8;}
+.sectionAlt{background:transparent;}
+.marketSection{background:transparent;}
+.footer{background:rgba(10,14,11,0.92);}
+.footerBackTop{color:#b8c6c0;}
+.footerCopy{color:#d5dfda;}
+.footerSubline{color:#9fb0a8;}
+.marketNote{color:#aab9b1;}
+#servizi .sectionHeading h2,#mercati .sectionHeading h2,#perche-scegliere-me .sectionHeading h2{color:#eaf6ee;}
+#servizi .sectionHeading p,#mercati .sectionHeading p,#perche-scegliere-me .sectionHeading p{color:#c3d0c9;}
+#servizi .sectionEyebrow,#mercati .sectionEyebrow,#perche-scegliere-me .sectionEyebrow{color:#7ee2a8;}
