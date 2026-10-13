@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react";
 import SectionHeading from "@/components/site/SectionHeading";
+import Reveal from "@/components/site/Reveal";
 import MarketChart from "@/components/site/MarketChart";
 import { marketsContent } from "@/content/site";
 import styles from "@/styles/site.module.css";
@@ -32,6 +33,7 @@ export default function Markets() {
       <div className="container">
         <SectionHeading title={marketsContent.title} />
 
+        <Reveal>
         <div className={styles.marketCardsRow}>
           <article className={styles.marketCard}>
             <span>PUN</span>
@@ -50,12 +52,15 @@ export default function Markets() {
             <p>{data === null ? "…" : lastUpdate}</p>
           </article>
         </div>
+        </Reveal>
 
+        <Reveal delay={0.1}>
         <p className={styles.marketNote}>
           Dati indicativi aggiornati periodicamente. Fonte: GME/ARERA o provider di mercato.
         </p>
 
         <MarketChart psvValue={data?.psv?.value ?? null} />
+        </Reveal>
       </div>
     </section>
   );

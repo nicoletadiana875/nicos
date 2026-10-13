@@ -1,4 +1,12 @@
 import "./globals.css";
+import { Outfit } from "next/font/google";
+
+const outfit = Outfit({
+  subsets: ["latin"],
+  weight: ["300", "400", "500", "600", "700", "800"],
+  variable: "--font-outfit",
+  display: "swap"
+});
 
 export const metadata = {
   title: "Consulente Energetico | Consulenza commerciale luce e gas",
@@ -23,7 +31,7 @@ export const metadata = {
 
 export default function RootLayout({ children }) {
   return (
-    <html lang="it">
+    <html lang="it" className={outfit.variable}>
       <body>{children}</body>
     </html>
   );

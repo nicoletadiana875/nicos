@@ -4,6 +4,7 @@ import { useState } from "react";
 import Icon from "@/components/site/Icon";
 import LiquidButton from "@/components/site/LiquidButton";
 import SectionHeading from "@/components/site/SectionHeading";
+import Reveal from "@/components/site/Reveal";
 import { contactContent, site } from "@/content/site";
 import styles from "@/styles/site.module.css";
 
@@ -81,6 +82,7 @@ export default function Contact() {
 
         <div className={styles.contactGrid}>
           <div>
+            <Reveal>
             <div className={styles.contactInfoCard}>
               <div className={styles.contactInfoRow}>
                 <span className={styles.iconBadge}>
@@ -121,7 +123,9 @@ export default function Contact() {
                 </div>
               </div>
             </div>
+            </Reveal>
 
+            <Reveal delay={0.1}>
             <div className={styles.contactProcessCard}>
               <h3>Come funziona</h3>
               <ol className={styles.processList}>
@@ -130,8 +134,10 @@ export default function Contact() {
                 ))}
               </ol>
             </div>
+            </Reveal>
           </div>
 
+          <Reveal delay={0.15} className={styles.contactFormReveal}>
           <form className={styles.formCard} onSubmit={onSubmit} noValidate>
             {/* Honeypot: invisibile agli utenti, i bot lo compilano */}
             <input
@@ -216,6 +222,7 @@ export default function Contact() {
               </p>
             )}
           </form>
+          </Reveal>
         </div>
       </div>
     </section>

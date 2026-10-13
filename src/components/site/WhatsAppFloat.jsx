@@ -10,14 +10,14 @@ export default function WhatsAppFloat() {
   const observerRef = useRef(null);
 
   useEffect(() => {
-    const footer = document.querySelector("footer");
-    if (!footer) return;
+    const targets = [document.querySelector("footer"), document.querySelector("#contatti")].filter(Boolean);
+    if (targets.length === 0) return;
 
     observerRef.current = new IntersectionObserver(
-      ([entry]) => setHidden(entry.isIntersecting),
+      (entries) => setHidden(entries.some((entry) => entry.isIntersecting)),
       { threshold: 0.05 }
     );
-    observerRef.current.observe(footer);
+    targets.forEach((target) => observerRef.current.observe(target));
 
     return () => observerRef.current?.disconnect();
   }, []);

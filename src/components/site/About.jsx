@@ -1,4 +1,5 @@
 import SectionHeading from "@/components/site/SectionHeading";
+import Reveal from "@/components/site/Reveal";
 import { aboutContent } from "@/content/site";
 import styles from "@/styles/site.module.css";
 
@@ -10,13 +11,16 @@ export default function About() {
 
         <div className={`${styles.aboutGrid} ${styles.chiSonoGrid}`}>
           <div className={styles.aboutCopy}>
+            <Reveal>
             <div className={styles.paragraphStack}>
               <p>{aboutContent.description}</p>
               {aboutContent.paragraphs.map((item) => (
                 <p key={item}>{item}</p>
               ))}
             </div>
+            </Reveal>
 
+            <Reveal delay={0.1}>
             <div className={styles.timeline}>
               {aboutContent.steps.map((item) => (
                 <article key={item.number} className={styles.timelineItem}>
@@ -28,6 +32,7 @@ export default function About() {
                 </article>
               ))}
             </div>
+            </Reveal>
           </div>
 
           <div className={styles.aboutAside}>

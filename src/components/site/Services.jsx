@@ -1,6 +1,7 @@
 import Icon from "@/components/site/Icon";
 import SectionHeading from "@/components/site/SectionHeading";
 import Reveal from "@/components/site/Reveal";
+import SlideCarousel from "@/components/site/SlideCarousel";
 import { servicesContent } from "@/content/site";
 import styles from "@/styles/site.module.css";
 const serviceBenefits = {
@@ -29,7 +30,7 @@ export default function Services() {
           description={servicesContent.description}
           align="center"
         />
-        <div className={styles.servicesGrid}>
+        <SlideCarousel label="Servizi">
           {servicesContent.items.map((service, i) => (
             <Reveal key={service.title} delay={i * 0.1}>
               <article className={styles.serviceCard}>
@@ -52,7 +53,7 @@ export default function Services() {
               </article>
             </Reveal>
           ))}
-        </div>
+        </SlideCarousel>
       </div>
     </section>
   );

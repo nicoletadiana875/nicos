@@ -1,27 +1,27 @@
 :root {
-  --bg: #f3f8f4;
-  --bg-soft: #e9f1ea;
+  --bg: #f6f1e8;
+  --bg-soft: #efe7d8;
   --surface: #ffffff;
-  --surface-muted: #f1f6f2;
-  --ink-100: #166534;
-  --ink-200: #25344f;
-  --text-200: #33435f;
-  --text-300: #5b6b85;
-  --accent-blue: #16a34a;
-  --accent-blue-dark: #15803d;
-  --accent-blue-soft: #e7f4ec;
-  --accent-amber: #16a34a;
-  --accent-amber-soft: #e7f4ec;
-  --accent-tech: #22c55e;
-  --line: rgba(30, 41, 59, 0.12);
-  --line-soft: rgba(30, 41, 59, 0.07);
-  --radius-lg: 28px;
-  --radius-md: 20px;
-  --shadow-card: 0 18px 40px rgba(30, 41, 59, 0.1);
-  --shadow-soft: 0 26px 60px rgba(30, 41, 59, 0.16);
+  --surface-muted: #f4eee3;
+  --ink-100: #14532d;
+  --ink-200: #24352b;
+  --text-200: #44403a;
+  --text-300: #6f6a60;
+  --accent-blue: #166534;
+  --accent-blue-dark: #14532d;
+  --accent-blue-soft: #e9efe4;
+  --accent-amber: #d97706;
+  --accent-amber-soft: #fbeedd;
+  --accent-tech: #b45309;
+  --line: rgba(68, 64, 58, 0.14);
+  --line-soft: rgba(68, 64, 58, 0.08);
+  --radius-lg: 24px;
+  --radius-md: 16px;
+  --shadow-card: none;
+  --shadow-soft: none;
   --container: min(1180px, calc(100% - 48px));
-  --font-heading: 'Aptos Display', 'Segoe UI', system-ui, -apple-system, sans-serif;
-  --font-body: 'Aptos', 'Segoe UI', system-ui, -apple-system, sans-serif;
+  --font-heading: var(--font-outfit), 'Segoe UI', system-ui, -apple-system, sans-serif;
+  --font-body: var(--font-outfit), 'Segoe UI', system-ui, -apple-system, sans-serif;
 }
 
 * {
@@ -30,6 +30,7 @@
 
 html {
   scroll-behavior: smooth;
+  scroll-padding-top: 96px;
 }
 
 
@@ -38,7 +39,7 @@ body {
   margin: 0;
   color: var(--text-200);
   font-family: var(--font-body);
-  background: #0a0c0b;
+  background: #f6f1e8;
 }
 
 main {
@@ -81,7 +82,9 @@ h2 {
 }
 
 h1 {
-  font-size: clamp(2.9rem, 4vw, 4.85rem);
+  font-size: clamp(2.6rem, 5.4vw, 4.75rem);
+  font-weight: 500;
+  line-height: 1.04;
 }
 
 h2 {
@@ -126,15 +129,15 @@ p {
 
 
 .btn-primary {
-  background: linear-gradient(145deg, #16a34a, #15803d);
+  background: linear-gradient(145deg, #d97706, #b45309);
   color: #fff;
-  box-shadow: 0 14px 30px rgba(22, 163, 74, 0.32);
+  box-shadow: 0 14px 30px rgba(217, 119, 6, 0.3);
 }
 
 .btn-secondary {
   background: #fff;
   color: var(--accent-blue-dark);
-  border-color: rgba(30, 41, 59, 0.16);
+  border-color: rgba(68, 64, 58, 0.16);
   box-shadow: var(--shadow-card);
 }
 
@@ -153,4 +156,4 @@ p {
 }
 
 
-body::before { content: ''; position: fixed; inset: 0; z-index: -2; pointer-events: none; background: linear-gradient(rgba(8, 10, 9, 0.5), rgba(8, 10, 9, 0.5)), url(/images/sfondo.jpg) center / cover no-repeat; }
+body::before { content: ''; position: fixed; inset: 0; z-index: -2; pointer-events: none; background: radial-gradient(ellipse 90% 55% at 50% -12%, rgba(217, 119, 6, 0.07), transparent 62%); }
