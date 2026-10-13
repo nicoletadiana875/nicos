@@ -85,8 +85,15 @@ nella casella di posta. Al cliente arriva una conferma che non riporta il testo 
 
 ## Dati di mercato luce e gas
 
-- **PUN e gas (ufficiali)**: API del GME, vedi `GME_API_USER` / `GME_API_PASSWORD` in `.env.example`.
-  Dataset usati: `ME_ZonalPrices` (zona `PUN`, MGP) e `GAS_IGIndex` (indice IGI).
+- **PUN e gas (ufficiali)**: API del GME (`GME_API_USER`, `GME_API_PASSWORD`). Dataset usati:
+  `ME_ZonalPrices` (zona `PUN`, MGP) e `GAS_IGIndex` (indice IGI).
+  **Licenza**: le condizioni generali dell'API (artt. 5 e 6) consentono solo un uso informativo e
+  privato e vietano usi economici/commerciali senza consenso scritto di GME. Per questo
+  l'integrazione e' spenta finche' non e' impostata anche `GME_COMMERCIAL_LICENSE=confirmed`, da
+  fare solo dopo aver ottenuto la licenza (contatto: info@mercatoelettrico.org).
+  Quando e' attiva il sito riporta "Fonte: Gestore dei Mercati Energetici S.p.A.".
+- **Collegamenti in tempo reale**: la sezione Mercati rimanda alle pagine ufficiali (GME, Energy-Charts)
+  elencate in `src/config/marketLinks.mjs`. Sono semplici link, non riproducono dati.
 - **Elettricita' senza credenziali GME**: prezzo day-ahead zona Nord da Energy-Charts
   (dati Bundesnetzagentur | SMARD.de, licenza CC BY 4.0), indicato come tale.
 - Nessun valore e' scritto a mano o stimato. Se la fonte non risponde viene mostrato l'ultimo dato

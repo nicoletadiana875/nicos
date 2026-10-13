@@ -14,13 +14,25 @@ import { unzipFirstFile } from "@/lib/zip";
 const BASE = process.env.GME_API_BASE || "https://api.mercatoelettrico.org/request";
 const TIMEOUT_MS = 20_000;
 
+// Dicitura di attribuzione prescritta dalle condizioni GME (art. 5)
 export const GME_SOURCE = {
-  name: "GME – Gestore dei Mercati Energetici",
+  name: "Gestore dei Mercati Energetici S.p.A.",
   url: "https://www.mercatoelettrico.org",
 };
 
+/**
+ * L'integrazione si attiva SOLO se ci sono le credenziali E se e' stata confermata una
+ * licenza GME per uso commerciale (GME_COMMERCIAL_LICENSE=confirmed).
+ * La licenza standard dell'API e' limitata a un uso "informativo e di carattere privato" e
+ * vieta usi economici/commerciali (condizioni generali API, artt. 5 e 6): mostrare i dati
+ * sul sito di un'attivita' di consulenza richiede il consenso scritto di GME.
+ */
 export function gmeConfigured() {
-  return Boolean(process.env.GME_API_USER && process.env.GME_API_PASSWORD);
+  return Boolean(
+    process.env.GME_API_USER &&
+      process.env.GME_API_PASSWORD &&
+      process.env.GME_COMMERCIAL_LICENSE === "confirmed"
+  );
 }
 
 let tokenCache = { token: null, expiresAt: 0 };

@@ -11,6 +11,7 @@ import {
   Tooltip,
   ReferenceLine,
 } from "recharts";
+import { fallbackLinks } from "@/config/marketLinks.mjs";
 import styles from "@/styles/site.module.css";
 
 const REFRESH_MS = 15 * 60_000;
@@ -165,6 +166,16 @@ export default function MarketChart({ gas }) {
               <p className={styles.chartPsvNote}>
                 Il prezzo del gas viene mostrato solo quando arriva da una fonte ufficiale: non
                 vengono visualizzati valori stimati o non aggiornati come se fossero attuali.
+              </p>
+              <p className={styles.chartPsvNote}>
+                <a
+                  className={styles.marketSource}
+                  href={fallbackLinks.gas.url}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  Consulta il prezzo ufficiale del gas sul sito GME →
+                </a>
               </p>
             </>
           )}

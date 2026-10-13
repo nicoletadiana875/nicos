@@ -6,6 +6,7 @@ import EnergyBackdrop from "@/components/site/EnergyBackdrop";
 import Reveal from "@/components/site/Reveal";
 import MarketChart from "@/components/site/MarketChart";
 import { marketsContent } from "@/content/site";
+import { fallbackLinks, marketLinks } from "@/config/marketLinks.mjs";
 import styles from "@/styles/site.module.css";
 
 // I prezzi day-ahead cambiano una volta al giorno, l'ora in corso ogni 15-60 minuti
@@ -40,7 +41,7 @@ function SourceLink({ source }) {
   );
 }
 
-function PriceCard({ item, title, loading }) {
+function PriceCard({ item, title, loading, fallback }) {
   const hasValue = item && item.value != null;
 
   return (
@@ -78,8 +79,17 @@ function PriceCard({ item, title, loading }) {
               Non aggiornato: ultimo dato disponibile del {formatDay(item.date)}.
             </small>
           )}
-          {!hasValue && <small>Dato momentaneamente non disponibile da una fonte ufficiale.</small>}
-          <SourceLink source={item?.source} />
+          {!hasValue && (
+            <>
+              <small>Dato momentaneamente non disponibile da una fonte ufficiale.</small>
+              {fallback && (
+                <a className={styles.marketSource} href={fallback.url} target="_blank" rel="noopener noreferrer">
+                  Consulta il dato ufficiale: {fallback.title} →
+                </a>
+              )}
+            </>
+          )}
+          {hasValue && <SourceLink source={item?.source} />}
         </div>
       )}
     </article>
@@ -119,8 +129,8 @@ export default function Markets() {
 
         <Reveal>
           <div className={styles.marketCardsRow}>
-            <PriceCard item={electricity} title="Energia elettrica" loading={loading} />
-            <PriceCard item={gas} title="Gas naturale" loading={loading} />
+            <PriceCard item={electricity} title="Energia elettrica" loading={loading} fallback={fallbackLinks.electricity} />
+            <PriceCard item={gas} title="Gas naturale" loading={loading} fallback={fallbackLinks.gas} />
 
             <article className={styles.marketMetaCard}>
               <span>Ultimo aggiornamento</span>
@@ -152,6 +162,29 @@ export default function Markets() {
           </p>
 
           <MarketChart gas={gas} />
+        </Reveal>
+
+        <Reveal delay={0.1}>
+          <div className={styles.liveSources}>
+            <div>
+              <h3>Segui i mercati in tempo reale</h3>
+              <p>
+                I valori ufficiali sono pubblicati dagli enti che gestiscono i mercati. Questi
+                collegamenti ti portano direttamente alle loro pagine, sempre aggiornate.
+              </p>
+            </div>
+            <ul className={styles.liveSourcesList}>
+              {marketLinks.map((link) => (
+                <li key={link.id}>
+                  <a href={link.url} target="_blank" rel="noopener noreferrer">
+                    <strong>{link.title}</strong>
+                    <span>{link.description}</span>
+                    <em>{link.provider} ↗</em>
+                  </a>
+                </li>
+              ))}
+            </ul>
+          </div>
         </Reveal>
       </div>
     </section>
