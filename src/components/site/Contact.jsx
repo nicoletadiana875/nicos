@@ -1,22 +1,28 @@
 "use client";
 
 import { useState } from "react";
+import EnergyBackdrop from "@/components/site/EnergyBackdrop";
+import Link from "next/link";
 import Icon from "@/components/site/Icon";
 import LiquidButton from "@/components/site/LiquidButton";
+import SectionDivider from "@/components/site/SectionDivider";
 import SectionHeading from "@/components/site/SectionHeading";
 import Reveal from "@/components/site/Reveal";
+import { legal } from "@/config/legal.mjs";
 import { contactContent, site } from "@/content/site";
+import { MAX_FILE_MB, validateContact } from "@/lib/contactRules";
 import styles from "@/styles/site.module.css";
 
-const MAX_FILE_MB = 5;
-const ALLOWED_TYPES = ["application/pdf", "image/jpeg", "image/png"];
+const FALLBACK = `Se il problema persiste scrivimi a ${site.email} o su WhatsApp.`;
 
 export default function Contact() {
   const [feedback, setFeedback] = useState("");
   const [isError, setIsError] = useState(false);
+  const [sending, setSending] = useState(false);
 
-  const onSubmit = (event) => {
+  const onSubmit = async (event) => {
     event.preventDefault();
+    if (sending) return;
     const form = event.currentTarget;
     const data = new FormData(form);
 
@@ -28,52 +34,59 @@ export default function Contact() {
       return;
     }
 
-    const nome = data.get("nome")?.trim() ?? "";
-    const email = data.get("email")?.trim() ?? "";
-    const messaggio = data.get("messaggio")?.trim() ?? "";
+    // Validazione lato client (le stesse regole sono ripetute sul server)
+    const problem = validateContact({
+      nome: data.get("nome")?.trim() ?? "",
+      email: data.get("email")?.trim() ?? "",
+      messaggio: data.get("messaggio")?.trim() ?? "",
+      privacy: data.get("privacy") === "on",
+      file: data.get("bolletta"),
+    });
+    if (problem) {
+      setFeedback(problem);
+      setIsError(true);
+      return;
+    }
+
+    // Un campo file vuoto non va inviato
     const file = data.get("bolletta");
+    if (file && file.size === 0) data.delete("bolletta");
 
-    // Validazione lato client
-    if (!nome || nome.length < 2 || nome.length > 100) {
-      setFeedback("Inserisci un nome valido (2–100 caratteri).");
-      setIsError(true);
-      return;
-    }
-
-    const emailRe = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    if (!emailRe.test(email)) {
-      setFeedback("Inserisci un indirizzo email valido.");
-      setIsError(true);
-      return;
-    }
-
-    if (!messaggio || messaggio.length < 10 || messaggio.length > 2000) {
-      setFeedback("Il messaggio deve essere tra 10 e 2000 caratteri.");
-      setIsError(true);
-      return;
-    }
-
-    // Validazione file (tipo e dimensione)
-    if (file && file.size > 0) {
-      if (!ALLOWED_TYPES.includes(file.type)) {
-        setFeedback("Formato non supportato. Usa PDF, JPG o PNG.");
-        setIsError(true);
-        return;
-      }
-      if (file.size > MAX_FILE_MB * 1024 * 1024) {
-        setFeedback(`Il file supera i ${MAX_FILE_MB} MB consentiti.`);
-        setIsError(true);
-        return;
-      }
-    }
-
-    setFeedback("Richiesta ricevuta. Ti ricontatterò al più presto.");
+    setSending(true);
     setIsError(false);
-    form.reset();
+    setFeedback("Invio in corso…");
+
+    try {
+      const response = await fetch("/api/contact", { method: "POST", body: data });
+      const result = await response.json().catch(() => ({}));
+
+      if (response.ok && result.ok) {
+        setFeedback("Richiesta inviata. Ti ricontatterò al più presto.");
+        setIsError(false);
+        form.reset();
+      } else {
+        const base = result.error || "Non è stato possibile inviare la richiesta.";
+        if (response.status === 400) {
+          setFeedback(base);
+        } else if (result.code === "not_configured") {
+          setFeedback(`${base} Scrivimi direttamente a ${site.email} o su WhatsApp.`);
+        } else {
+          setFeedback(`${base} ${FALLBACK}`);
+        }
+        setIsError(true);
+      }
+    } catch {
+      setFeedback(`Connessione non riuscita. ${FALLBACK}`);
+      setIsError(true);
+    } finally {
+      setSending(false);
+    }
   };
 
   return (
     <section id="contatti" className={styles.section}>
+      <SectionDivider tone="cream" />
+      <EnergyBackdrop />
       <div className="container">
         <SectionHeading
           title={contactContent.title}
@@ -112,6 +125,16 @@ export default function Contact() {
 
               <div className={styles.contactInfoRow}>
                 <span className={styles.iconBadge}>
+                  <Icon name="phone" className={styles.icon} />
+                </span>
+                <div>
+                  <span>Telefono</span>
+                  <a href={site.phoneHref}>{site.phoneLabel}</a>
+                </div>
+              </div>
+
+              <div className={styles.contactInfoRow}>
+                <span className={styles.iconBadge}>
                   <Icon name="upload" className={styles.icon} />
                 </span>
                 <div>
@@ -121,6 +144,20 @@ export default function Contact() {
                     MB) per una prima analisi.
                   </p>
                 </div>
+              </div>
+
+              <div className={styles.contactActions}>
+                <LiquidButton href={site.phoneHref} variant="secondary" compact>
+                  Chiama ora
+                </LiquidButton>
+                <LiquidButton
+                  href={site.whatsappUrl}
+                  compact
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  Scrivi su WhatsApp
+                </LiquidButton>
               </div>
             </div>
             </Reveal>
@@ -206,8 +243,35 @@ export default function Contact() {
               />
             </div>
 
-            <LiquidButton type="submit">
-              Invia richiesta
+            <div className={styles.consentBlock}>
+              <label className={styles.checkRow}>
+                <input type="checkbox" name="privacy" required />
+                <span>
+                  Ho letto l&apos;<Link href="/privacy" target="_blank">
+                    Informativa sulla privacy
+                  </Link>{" "}
+                  *
+                </span>
+              </label>
+
+              {legal.collectPromoConsent && (
+                <label className={styles.checkRow}>
+                  <input type="checkbox" name="promo" />
+                  <span>
+                    Desidero ricevere comunicazioni informative e promozionali. Facoltativo: non
+                    influisce sulla richiesta di consulenza.
+                  </span>
+                </label>
+              )}
+
+              <p className={styles.formHint}>
+                I dati servono solo a risponderti. Allega soltanto i documenti necessari: puoi
+                oscurare le informazioni non pertinenti.
+              </p>
+            </div>
+
+            <LiquidButton type="submit" disabled={sending}>
+              {sending ? "Invio in corso…" : "Invia richiesta"}
             </LiquidButton>
 
             {feedback && (

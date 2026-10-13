@@ -2,6 +2,8 @@ import Header from "@/components/site/Header";
 import Footer from "@/components/site/Footer";
 import Hero from "@/components/site/Hero";
 import About from "@/components/site/About";
+import Method from "@/components/site/Method";
+import ScrollProgress from "@/components/site/ScrollProgress";
 import Services from "@/components/site/Services";
 import Markets from "@/components/site/Markets";
 import WhyChooseMe from "@/components/site/WhyChooseMe";
@@ -34,10 +36,12 @@ export default function HomePage() {
   return (
     <>
       <LiquidGlassFilter />
+      <ScrollProgress />
       <Header />
       <main>
         <Hero />
         <About />
+        <Method />
         <Services />
         <Markets />
         <WhyChooseMe />

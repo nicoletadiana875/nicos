@@ -5,6 +5,12 @@ import { site } from "@/content/site";
 import LiquidButton from "@/components/site/LiquidButton";
 import styles from "@/styles/site.module.css";
 
+/**
+ * Pulsanti di contatto rapido, fissi in basso a destra:
+ *  - WhatsApp (sempre);
+ *  - Chiama (solo su schermi piccoli, dove la chiamata e' immediata).
+ * Si nascondono quando sono visibili il footer o la sezione contatti.
+ */
 export default function WhatsAppFloat() {
   const [hidden, setHidden] = useState(false);
   const observerRef = useRef(null);
@@ -23,15 +29,25 @@ export default function WhatsAppFloat() {
   }, []);
 
   return (
-    <LiquidButton
-      href={site.whatsappUrl}
-      compact
-      className={`${styles.whatsappFloat} ${hidden ? styles.whatsappFloatHidden : ""}`}
-      target="_blank"
-      rel="noopener noreferrer"
-      aria-label="Contattami su WhatsApp"
-    >
-      WhatsApp diretto
-    </LiquidButton>
+    <div className={`${styles.floatStack} ${hidden ? styles.floatStackHidden : ""}`}>
+      <LiquidButton
+        href={site.phoneHref}
+        compact
+        variant="secondary"
+        className={styles.floatCall}
+        aria-label={`Chiama ${site.phoneLabel}`}
+      >
+        Chiama
+      </LiquidButton>
+      <LiquidButton
+        href={site.whatsappUrl}
+        compact
+        target="_blank"
+        rel="noopener noreferrer"
+        aria-label="Contattami su WhatsApp"
+      >
+        WhatsApp diretto
+      </LiquidButton>
+    </div>
   );
 }

@@ -2,64 +2,156 @@
 
 import { useEffect, useState } from "react";
 import SectionHeading from "@/components/site/SectionHeading";
+import EnergyBackdrop from "@/components/site/EnergyBackdrop";
 import Reveal from "@/components/site/Reveal";
 import MarketChart from "@/components/site/MarketChart";
 import { marketsContent } from "@/content/site";
 import styles from "@/styles/site.module.css";
 
-function formatDate(dateStr) {
-  if (!dateStr) return "—";
-  const d = new Date(dateStr);
-  if (isNaN(d)) return dateStr;
-  return d.toLocaleDateString("it-IT", { day: "2-digit", month: "long", year: "numeric" });
+// I prezzi day-ahead cambiano una volta al giorno, l'ora in corso ogni 15-60 minuti
+const REFRESH_MS = 5 * 60_000;
+
+const number = new Intl.NumberFormat("it-IT", { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+
+const formatDay = (iso) =>
+  new Date(`${iso}T12:00:00Z`).toLocaleDateString("it-IT", {
+    day: "numeric",
+    month: "long",
+    year: "numeric",
+    timeZone: "UTC",
+  });
+
+const formatDateTime = (iso) =>
+  new Date(iso).toLocaleString("it-IT", {
+    day: "numeric",
+    month: "long",
+    year: "numeric",
+    hour: "2-digit",
+    minute: "2-digit",
+    timeZone: "Europe/Rome",
+  });
+
+function SourceLink({ source }) {
+  if (!source) return null;
+  return (
+    <a className={styles.marketSource} href={source.url} target="_blank" rel="noopener noreferrer">
+      Fonte: {source.name}
+    </a>
+  );
+}
+
+function PriceCard({ item, title, loading }) {
+  const hasValue = item && item.value != null;
+
+  return (
+    <article className={styles.marketCard}>
+      <span>{item?.shortLabel ?? "…"}</span>
+      <h3>{title}</h3>
+      <p>
+        {loading
+          ? "…"
+          : hasValue
+            ? `${number.format(item.value)} ${item.unit}`
+            : "Non disponibile"}
+      </p>
+
+      {!loading && (
+        <div className={styles.marketCardMeta}>
+          {hasValue && item.status === "live" && (
+            <>
+              <small>
+                {item.product ? `${item.product} · ` : ""}
+                {item.kind === "igi" ? "Indice del" : "Media del"} {formatDay(item.date)}
+              </small>
+              {item.current && item.current.value != null && (
+                <small>Prezzo in questo momento: {number.format(item.current.value)} {item.unit}</small>
+              )}
+              {item.next && (
+                <small>
+                  {formatDay(item.next.date)}: {number.format(item.next.value)} {item.unit}
+                </small>
+              )}
+            </>
+          )}
+          {hasValue && item.status === "stale" && (
+            <small className={styles.marketStale}>
+              Non aggiornato: ultimo dato disponibile del {formatDay(item.date)}.
+            </small>
+          )}
+          {!hasValue && <small>Dato momentaneamente non disponibile da una fonte ufficiale.</small>}
+          <SourceLink source={item?.source} />
+        </div>
+      )}
+    </article>
+  );
 }
 
 export default function Markets() {
   const [data, setData] = useState(null);
 
   useEffect(() => {
-    fetch("/api/markets", { cache: "no-store" })
-      .then((r) => r.json())
-      .then(setData)
-      .catch(() => setData({}));
+    let alive = true;
+
+    const load = () =>
+      fetch("/api/markets", { cache: "no-store" })
+        .then((r) => r.json())
+        .then((json) => alive && setData(json))
+        .catch(() => alive && setData((prev) => prev ?? { failed: true }));
+
+    load();
+    const timer = setInterval(load, REFRESH_MS);
+    return () => {
+      alive = false;
+      clearInterval(timer);
+    };
   }, []);
 
-  const pun = data?.pun?.value != null ? `${data.pun.value} ${data.pun.unit}` : "—";
-  const psv = data?.psv?.value != null ? `${data.psv.value} ${data.psv.unit}` : "—";
-  const lastUpdate = formatDate(data?.lastUpdate);
+  const loading = data === null;
+  const electricity = data?.electricity;
+  const gas = data?.gas;
+  const gasMissing = !loading && (!gas || gas.value == null);
 
   return (
     <section id="mercati" className={`${styles.section} ${styles.marketSection}`}>
+      <EnergyBackdrop />
       <div className="container">
         <SectionHeading title={marketsContent.title} />
 
         <Reveal>
-        <div className={styles.marketCardsRow}>
-          <article className={styles.marketCard}>
-            <span>PUN</span>
-            <h3>Energia elettrica</h3>
-            <p>{data === null ? "…" : pun}</p>
-          </article>
+          <div className={styles.marketCardsRow}>
+            <PriceCard item={electricity} title="Energia elettrica" loading={loading} />
+            <PriceCard item={gas} title="Gas naturale" loading={loading} />
 
-          <article className={styles.marketCard}>
-            <span>PSV</span>
-            <h3>Gas naturale</h3>
-            <p>{data === null ? "…" : psv}</p>
-          </article>
-
-          <article className={styles.marketMetaCard}>
-            <span>Ultimo aggiornamento</span>
-            <p>{data === null ? "…" : lastUpdate}</p>
-          </article>
-        </div>
+            <article className={styles.marketMetaCard}>
+              <span>Ultimo aggiornamento</span>
+              <p>
+                {loading
+                  ? "…"
+                  : data?.generatedAt
+                    ? formatDateTime(data.generatedAt)
+                    : "Non disponibile"}
+              </p>
+              <div className={styles.marketCardMeta}>
+                <small>
+                  Prezzi del mercato del giorno prima (MGP), pubblicati ogni giorno intorno alle
+                  13:00. La pagina si aggiorna da sola.
+                </small>
+              </div>
+            </article>
+          </div>
         </Reveal>
 
         <Reveal delay={0.1}>
-        <p className={styles.marketNote}>
-          Dati indicativi aggiornati periodicamente. Fonte: GME/ARERA o provider di mercato.
-        </p>
+          <p className={styles.marketNote}>
+            Valori reali letti dalle fonti indicate, mai stimati. Se una fonte non risponde viene
+            segnalato e non si mostrano dati vecchi come se fossero attuali.
+            {!loading && electricity?.kind === "zonal" && (
+              <> Il prezzo dell&apos;elettricità è quello della zona Nord, non il PUN nazionale.</>
+            )}
+            {gasMissing && <> Il prezzo del gas è mostrato solo quando disponibile da fonte ufficiale.</>}
+          </p>
 
-        <MarketChart psvValue={data?.psv?.value ?? null} />
+          <MarketChart gas={gas} />
         </Reveal>
       </div>
     </section>

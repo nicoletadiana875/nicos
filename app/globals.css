@@ -178,7 +178,7 @@ p {
   *::before,
   *::after {
     transition-duration: 0.01ms !important;
-    animation-duration: 0.01ms !important;
+    animation: none !important;
   }
 }
 

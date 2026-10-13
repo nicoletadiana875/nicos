@@ -1,4 +1,6 @@
+import EnergyBackdrop from "@/components/site/EnergyBackdrop";
 import Icon from "@/components/site/Icon";
+import SectionDivider from "@/components/site/SectionDivider";
 import SectionHeading from "@/components/site/SectionHeading";
 import Reveal from "@/components/site/Reveal";
 import SlideCarousel from "@/components/site/SlideCarousel";
@@ -21,9 +23,26 @@ const serviceBenefits = {
     "Aggiornamenti su mercato e fornitura",
   ],
 };
+// Una fotografia per scheda (chiave = numero del servizio)
+const servicePhotos = {
+  "01": {
+    src: "/images/contatori-parete.jpg",
+    alt: "Parete di contatori elettrici digitali allineati",
+  },
+  "02": {
+    src: "/images/confronto-laptop.jpg",
+    alt: "Confronto di offerte davanti a un laptop durante una riunione",
+  },
+  "03": {
+    src: "/images/lampadina-erba.jpg",
+    alt: "Lampadina appoggiata sull'erba, simbolo di risparmio energetico",
+  },
+};
 export default function Services() {
   return (
-    <section id="servizi" className={`${styles.section} ${styles.sectionAlt}`}>
+    <section id="servizi" className={styles.section}>
+      <SectionDivider tone="cream" />
+      <EnergyBackdrop />
       <div className="container">
         <SectionHeading
           title={servicesContent.title}
@@ -34,6 +53,19 @@ export default function Services() {
           {servicesContent.items.map((service, i) => (
             <Reveal key={service.title} delay={i * 0.1}>
               <article className={styles.serviceCard}>
+                {servicePhotos[service.number] && (
+                  <div className={styles.serviceMedia}>
+                    <img
+                      src={servicePhotos[service.number].src}
+                      alt={servicePhotos[service.number].alt}
+                      className={styles.serviceMediaImg}
+                      width={1400}
+                      height={788}
+                      loading="lazy"
+                      decoding="async"
+                    />
+                  </div>
+                )}
                 <div className={styles.serviceCardHeader}>
                   <span className={styles.serviceNumber}>{service.number}</span>
                   <span className={styles.iconBadge}>

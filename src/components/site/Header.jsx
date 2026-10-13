@@ -1,11 +1,15 @@
 "use client";
 
+import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
 import { site } from "@/content/site";
 import LiquidButton from "@/components/site/LiquidButton";
 import styles from "@/styles/site.module.css";
 
 export default function Header() {
+  const pathname = usePathname();
+  // Fuori dalla home le ancore devono riportare alla home ("/#servizi")
+  const prefix = pathname === "/" ? "" : "/";
   const [open, setOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
 
@@ -19,7 +23,7 @@ export default function Header() {
   return (
     <header className={`${styles.header} ${scrolled ? styles.headerScrolled : ""}`}>
       <div className={`container ${styles.headerInner}`}>
-        <a href="#home" className={styles.logo}>
+        <a href={`${prefix}#home`} className={styles.logo}>
           <span className={styles.logoMark}>CE</span>
           <span className={styles.logoText}>
             <strong>{site.brand}</strong>
@@ -29,14 +33,14 @@ export default function Header() {
 
         <nav className={styles.nav} aria-label="Navigazione principale">
           {site.nav.map((item) => (
-            <a key={item.href} href={item.href}>
+            <a key={item.href} href={`${prefix}${item.href}`}>
               {item.label}
             </a>
           ))}
         </nav>
 
         <div className={styles.headerActions}>
-          <LiquidButton href="#contatti" compact className={styles.headerLiquidCta}>
+          <LiquidButton href={`${prefix}#contatti`} compact className={styles.headerLiquidCta}>
             Parla con me
           </LiquidButton>
           <button
@@ -60,7 +64,7 @@ export default function Header() {
         aria-label="Navigazione mobile"
       >
         {site.nav.map((item) => (
-          <a key={item.href} href={item.href} onClick={() => setOpen(false)}>
+          <a key={item.href} href={`${prefix}${item.href}`} onClick={() => setOpen(false)}>
             {item.label}
           </a>
         ))}

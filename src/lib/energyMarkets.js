@@ -1,63 +1,245 @@
-import { readFileSync } from "fs";
-import { join } from "path";
+// Dati di mercato luce e gas.
+//
+// Regole:
+//  - nessun valore scritto a mano o stimato: o arriva da una fonte, o e' "non disponibile";
+//  - ogni valore porta con se' data di riferimento, fonte e stato;
+//  - se la fonte non risponde si mostra l'ultimo dato REALE ricevuto, marcato "non aggiornato"
+//    (e solo entro 36 ore), mai presentato come attuale.
+//
+// Fonti, in ordine di priorita':
+//  - GME API ufficiali (PUN Index GME e indice gas IGI): richiedono GME_API_USER / GME_API_PASSWORD;
+//  - Energy-Charts (dati ENTSO-E/Bundesnetzagentur): prezzo day-ahead della zona Nord,
+//    usato per l'elettricita' quando le credenziali GME non sono configurate.
 
-function readLocalData() {
-  const path = join(process.cwd(), "data", "markets.json");
-  return JSON.parse(readFileSync(path, "utf-8"));
+import {
+  GME_SOURCE,
+  currentHourPrice,
+  getGmeGasIndex,
+  getGmePunDaily,
+  gmeConfigured,
+} from "@/lib/gme";
+import {
+  ENERGY_CHARTS_SOURCE,
+  currentPoint,
+  dailyAverages,
+  getEnergyChartsPoints,
+} from "@/lib/energyCharts";
+import { romeDate, romeDateOffset, shortLabel } from "@/lib/time";
+
+const UNIT = "€/MWh";
+const STALE_LIMIT_MS = 36 * 60 * 60_000;
+
+const LABELS = {
+  pun: { short: "PUN", full: "PUN Index GME", detail: "Media giornaliera dei prezzi orari" },
+  zonal: {
+    short: "MGP Nord",
+    full: "Prezzo MGP zona Nord",
+    detail: "Media giornaliera dei prezzi day-ahead (zona Nord)",
+  },
+  igi: {
+    short: "PSV · IGI",
+    full: "Indice IGI GME (riferimento gas PSV)",
+    detail: "Indice giornaliero del mercato gas MGP-GAS",
+  },
+};
+
+// ---- memoria breve: evita di interrogare le fonti a ogni visita
+const memo = new Map();
+async function cached(key, ttlMs, fn) {
+  const scaled = ttlMs * Number(process.env.MARKETS_CACHE_SCALE ?? 1);
+  const hit = memo.get(key);
+  if (hit && Date.now() - hit.at < scaled) return hit.value;
+  const value = await fn();
+  memo.set(key, { at: Date.now(), value });
+  return value;
 }
 
-// Fonte pubblica gratuita: Fraunhofer ISE — energy-charts.info
-// Prezzi day-ahead zona IT-North (approssimazione del PUN nazionale).
-// Nessuna chiave API richiesta.
-//
-// Per collegare in futuro una fonte ufficiale GME (PUN esatto):
-//   const res = await fetch("https://...", {
-//     headers: { Authorization: `Bearer ${process.env.GME_API_KEY}` },
-//   });
-async function fetchPun() {
-  const today = new Date();
-  const yesterday = new Date(today);
-  yesterday.setDate(yesterday.getDate() - 1);
-  const fmt = (d) => d.toISOString().split("T")[0];
+let lastGood = { electricity: null, gas: null };
 
-  const url =
-    `https://api.energy-charts.info/price?bzn=IT-North` +
-    `&start=${fmt(yesterday)}&end=${fmt(today)}`;
+function unavailable(kind) {
+  const label = kind === "gas" ? LABELS.igi : LABELS.zonal;
+  return {
+    status: "unavailable",
+    kind: kind === "gas" ? "igi" : "zonal",
+    shortLabel: label.short,
+    label: label.full,
+    unit: UNIT,
+    value: null,
+    date: null,
+    next: null,
+    current: null,
+    product: null,
+    source: kind === "gas" ? GME_SOURCE : ENERGY_CHARTS_SOURCE,
+    fetchedAt: null,
+  };
+}
 
-  const res = await fetch(url, {
-    next: { revalidate: 3600 },
-    signal: AbortSignal.timeout(8000),
-  });
-  if (!res.ok) throw new Error(`HTTP ${res.status}`);
+function remember(slot, data) {
+  lastGood[slot] = data;
+  return data;
+}
 
-  const json = await res.json();
-  const prices = (json.price ?? []).filter((p) => p != null);
-  if (!prices.length) throw new Error("Nessun dato disponibile");
+function fallbackToLastGood(slot) {
+  const previous = lastGood[slot];
+  if (previous?.fetchedAt && Date.now() - Date.parse(previous.fetchedAt) < STALE_LIMIT_MS) {
+    return { ...previous, status: "stale" };
+  }
+  return unavailable(slot);
+}
 
-  const avg = prices.reduce((a, b) => a + b, 0) / prices.length;
-  return Math.round(avg * 100) / 100;
+// ---- elettricita'
+async function electricityFromGme() {
+  const days = await cached("gme-pun", 5 * 60_000, () => getGmePunDaily({ daysBack: 1, daysForward: 1 }));
+  if (!days.length) throw new Error("GME: nessun valore PUN");
+
+  const today = romeDate();
+  const todayRow = days.find((d) => d.date === today);
+  const chosen = todayRow ?? days.filter((d) => d.date <= today).at(-1) ?? days.at(-1);
+  const tomorrow = days.find((d) => d.date === romeDateOffset(1));
+  const hour = chosen.date === today ? currentHourPrice(chosen) : null;
+
+  return {
+    status: chosen.date === today ? "live" : "stale",
+    kind: "pun",
+    shortLabel: LABELS.pun.short,
+    label: LABELS.pun.full,
+    unit: UNIT,
+    value: chosen.value,
+    date: chosen.date,
+    next: tomorrow && tomorrow.date !== chosen.date ? { date: tomorrow.date, value: tomorrow.value } : null,
+    current: hour ? { value: hour.value, at: `ora ${hour.hour}` } : null,
+    product: null,
+    source: GME_SOURCE,
+    fetchedAt: new Date().toISOString(),
+  };
+}
+
+async function electricityFromEnergyCharts() {
+  const points = await getEnergyChartsPoints();
+  const daily = dailyAverages(points);
+  if (!daily.length) throw new Error("Energy-Charts: nessuna media giornaliera");
+
+  const today = romeDate();
+  const chosen = daily.find((d) => d.date === today) ?? daily.filter((d) => d.date <= today).at(-1);
+  if (!chosen) throw new Error("Energy-Charts: nessun dato per oggi");
+  const tomorrow = daily.find((d) => d.date === romeDateOffset(1));
+  const now = currentPoint(points);
+
+  return {
+    status: chosen.date === today ? "live" : "stale",
+    kind: "zonal",
+    shortLabel: LABELS.zonal.short,
+    label: LABELS.zonal.full,
+    unit: UNIT,
+    value: chosen.value,
+    date: chosen.date,
+    next: tomorrow ? { date: tomorrow.date, value: tomorrow.value } : null,
+    current:
+      now && romeDate(now.t) === today
+        ? { value: Math.round(now.price * 100) / 100, at: new Date(now.t * 1000).toISOString() }
+        : null,
+    product: null,
+    source: ENERGY_CHARTS_SOURCE,
+    fetchedAt: new Date().toISOString(),
+  };
+}
+
+async function getElectricity() {
+  if (gmeConfigured()) {
+    try {
+      return remember("electricity", await electricityFromGme());
+    } catch (error) {
+      console.error("[markets] GME elettricita':", error?.message ?? error);
+    }
+  }
+  try {
+    return remember("electricity", await electricityFromEnergyCharts());
+  } catch (error) {
+    console.error("[markets] Energy-Charts:", error?.message ?? error);
+    return fallbackToLastGood("electricity");
+  }
+}
+
+// ---- gas
+async function getGas() {
+  if (!gmeConfigured()) return unavailable("gas");
+
+  try {
+    const igi = await cached("gme-igi", 15 * 60_000, getGmeGasIndex);
+    const recent = igi.date >= romeDateOffset(-4);
+    return remember("gas", {
+      status: recent ? "live" : "stale",
+      kind: "igi",
+      shortLabel: LABELS.igi.short,
+      label: LABELS.igi.full,
+      unit: UNIT,
+      value: igi.value,
+      date: igi.date,
+      next: null,
+      current: null,
+      product: igi.product,
+      source: GME_SOURCE,
+      fetchedAt: new Date().toISOString(),
+    });
+  } catch (error) {
+    console.error("[markets] GME gas:", error?.message ?? error);
+    return fallbackToLastGood("gas");
+  }
 }
 
 export async function getMarketsData() {
-  const local = readLocalData();
+  const [electricity, gas] = await Promise.all([getElectricity(), getGas()]);
+  return {
+    generatedAt: new Date().toISOString(),
+    gmeConnected: gmeConfigured(),
+    electricity,
+    gas,
+  };
+}
 
-  let pun = { ...local.pun };
-  let lastUpdate = local.lastUpdate;
-  let autoUpdated = false;
+// ---- storico elettricita' (ultimi 30 giorni)
+export async function getMarketHistory(days = 30) {
+  const build = (kind, series, source) => ({
+    status: "live",
+    kind,
+    shortLabel: LABELS[kind].short,
+    label: LABELS[kind].full,
+    unit: UNIT,
+    history: series.slice(-days).map((d) => ({
+      date: d.date,
+      label: shortLabel(d.date),
+      value: d.value,
+    })),
+    source,
+    fetchedAt: new Date().toISOString(),
+  });
+
+  if (gmeConfigured()) {
+    try {
+      const series = await cached("gme-pun-history", 3 * 60 * 60_000, () =>
+        getGmePunDaily({ daysBack: days, daysForward: 0 })
+      );
+      if (series.length) return build("pun", series, GME_SOURCE);
+    } catch (error) {
+      console.error("[markets] storico GME:", error?.message ?? error);
+    }
+  }
 
   try {
-    const punValue = await fetchPun();
-    pun = { ...pun, value: punValue };
-    lastUpdate = new Date().toISOString().split("T")[0];
-    autoUpdated = true;
-  } catch {
-    // Fonte esterna non raggiungibile — uso il valore locale del JSON
+    const series = dailyAverages(await getEnergyChartsPoints());
+    if (series.length) return build("zonal", series, ENERGY_CHARTS_SOURCE);
+  } catch (error) {
+    console.error("[markets] storico Energy-Charts:", error?.message ?? error);
   }
 
   return {
-    ...local,
-    pun,
-    lastUpdate,
-    autoUpdated,
+    status: "unavailable",
+    kind: "zonal",
+    shortLabel: LABELS.zonal.short,
+    label: LABELS.zonal.full,
+    unit: UNIT,
+    history: [],
+    source: ENERGY_CHARTS_SOURCE,
+    fetchedAt: null,
   };
 }

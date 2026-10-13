@@ -1,5 +1,7 @@
 import "./globals.css";
 import { Outfit } from "next/font/google";
+import ConsentManager from "@/components/site/ConsentManager";
+import { legal } from "@/config/legal.mjs";
 
 const outfit = Outfit({
   subsets: ["latin"],
@@ -9,6 +11,8 @@ const outfit = Outfit({
 });
 
 export const metadata = {
+  // Finche' i testi legali sono in bozza (legal.draft) il sito non viene indicizzato
+  robots: legal.draft ? { index: false, follow: false } : undefined,
   title: "Consulente Energetico | Consulenza commerciale luce e gas",
   description:
     "Consulenza energetica professionale per aziende, professionisti e privati. Analisi contratti e bollette, lettura mercati PUN/PSV e supporto commerciale continuativo.",
@@ -32,7 +36,10 @@ export const metadata = {
 export default function RootLayout({ children }) {
   return (
     <html lang="it" className={outfit.variable}>
-      <body>{children}</body>
+      <body>
+        {children}
+        <ConsentManager />
+      </body>
     </html>
   );
 }

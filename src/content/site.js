@@ -1,10 +1,16 @@
-﻿export const site = {
-  brand: "Consulente Energetico",
-  consultantName: "Nicoleta Diana Stinga",
+﻿import { brand, contact, phoneDisplay, phoneHref, whatsappDisplay, whatsappUrl } from "@/config/settings.mjs";
+
+export const site = {
+  brand: brand.name,
+  consultantName: brand.consultantName,
   tagline: "Consulenza commerciale luce e gas per imprese e professionisti",
-  email: "nicoletadiana875@gmail.com",
-  whatsappLabel: "+39 389 090 9665",
-  whatsappUrl: "https://wa.me/393890909665",
+  // Contatti: si modificano in src/config/settings.mjs (o con le variabili d'ambiente)
+  email: contact.email,
+  phone: contact.phone,
+  phoneLabel: phoneDisplay,
+  phoneHref,
+  whatsappLabel: whatsappDisplay,
+  whatsappUrl,
   nav: [
     { href: "#home", label: "Home" },
     { href: "#chi-sono", label: "Chi sono" },
@@ -25,7 +31,7 @@ export const heroContent = {
     label: "Richiedi una consulenza"
   },
   secondaryCta: {
-    href: "mailto:nicoletadiana875@gmail.com",
+    href: `mailto:${contact.email}`,
     label: "Invia la tua bolletta"
   },
   highlights: [
@@ -174,4 +180,9 @@ export const contactContent = {
     "Analisi preliminare con sintesi operativa.",
     "Definizione della consulenza completa, se necessaria."
   ]
+};
+
+export const methodContent = {
+  title: "Il percorso di consulenza",
+  description: heroContent.panelText
 };

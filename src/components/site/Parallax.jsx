@@ -10,6 +10,7 @@ export default function Parallax({
   children,
   from = 0,
   to = -70,
+  through = false,
   className = "",
 }) {
   const ref = useRef(null);
@@ -17,7 +18,7 @@ export default function Parallax({
   const reduce = useReducedMotion();
   const { scrollYProgress } = useScroll({
     target: ref,
-    offset: ["start start", "end start"],
+    offset: through ? ["start end", "end start"] : ["start start", "end start"],
   });
   const y = useTransform(scrollYProgress, [0, 1], reduce ? [0, 0] : [from, to]);
   useEffect(() => setMounted(true), []);

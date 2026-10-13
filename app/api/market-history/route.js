@@ -1,59 +1,13 @@
 import { NextResponse } from "next/server";
+import { getMarketHistory } from "@/lib/energyMarkets";
 import { rateLimit } from "@/lib/rateLimit";
-import { readFileSync } from "fs";
-import { join } from "path";
+
+export const dynamic = "force-dynamic";
 
 const CORS_HEADERS = {
   "Access-Control-Allow-Origin": process.env.NEXT_PUBLIC_SITE_URL ?? "*",
   "Access-Control-Allow-Methods": "GET",
-  "Cache-Control": "public, s-maxage=3600, stale-while-revalidate=600",
 };
-
-function readFallbackHistory() {
-  try {
-    const data = JSON.parse(readFileSync(join(process.cwd(), "data", "markets.json"), "utf-8"));
-    return data.history ?? [];
-  } catch {
-    return [];
-  }
-}
-
-async function fetchPunHistory(days = 30) {
-  const end = new Date();
-  const start = new Date();
-  start.setDate(start.getDate() - days);
-
-  const fmt = (d) => d.toISOString().split("T")[0];
-  const url =
-    `https://api.energy-charts.info/price?bzn=IT-North` +
-    `&start=${fmt(start)}&end=${fmt(end)}`;
-
-  const res = await fetch(url, {
-    next: { revalidate: 3600 },
-    signal: AbortSignal.timeout(10000),
-  });
-  if (!res.ok) throw new Error(`HTTP ${res.status}`);
-
-  const json = await res.json();
-
-  const dayMap = {};
-  (json.unix_seconds ?? []).forEach((ts, i) => {
-    const price = json.price?.[i];
-    if (price == null) return;
-    const date = new Date(ts * 1000).toISOString().split("T")[0];
-    if (!dayMap[date]) dayMap[date] = { sum: 0, count: 0 };
-    dayMap[date].sum += price;
-    dayMap[date].count += 1;
-  });
-
-  return Object.entries(dayMap)
-    .map(([date, { sum, count }]) => ({
-      date,
-      label: new Date(date).toLocaleDateString("it-IT", { day: "2-digit", month: "short" }),
-      pun: Math.round((sum / count) * 100) / 100,
-    }))
-    .sort((a, b) => a.date.localeCompare(b.date));
-}
 
 export async function GET(request) {
   const ip =
@@ -61,7 +15,7 @@ export async function GET(request) {
     request.headers.get("x-real-ip") ??
     "unknown";
 
-  const { ok, remaining } = rateLimit(ip, 20, 60_000);
+  const { ok, remaining } = rateLimit(`history:${ip}`, 20, 60_000);
   if (!ok) {
     return NextResponse.json(
       { error: "Troppe richieste. Riprova tra un minuto." },
@@ -69,18 +23,18 @@ export async function GET(request) {
     );
   }
 
-  try {
-    const history = await fetchPunHistory(30);
-    return NextResponse.json(
-      { history, status: "ok" },
-      { headers: { "X-RateLimit-Remaining": String(remaining), ...CORS_HEADERS } }
-    );
-  } catch {
-    return NextResponse.json(
-      { history: readFallbackHistory(), status: "fallback" },
-      { headers: CORS_HEADERS }
-    );
-  }
+  // Lo storico non ricade mai su dati statici: se la fonte non risponde, history e' vuoto
+  const data = await getMarketHistory(30);
+  return NextResponse.json(data, {
+    headers: {
+      "X-RateLimit-Remaining": String(remaining),
+      "Cache-Control":
+        data.status === "live"
+          ? "public, s-maxage=900, stale-while-revalidate=900"
+          : "no-store",
+      ...CORS_HEADERS,
+    },
+  });
 }
 
 export async function POST() {
