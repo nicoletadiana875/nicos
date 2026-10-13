@@ -24,6 +24,8 @@ import {
   dailyAverages,
   getEnergyChartsPoints,
 } from "@/lib/energyCharts";
+import { getConsumerPrices } from "@/lib/eurostat";
+import { getGasStorage } from "@/lib/agsi";
 import { romeDate, romeDateOffset, shortLabel } from "@/lib/time";
 
 const UNIT = "€/MWh";
@@ -188,12 +190,20 @@ async function getGas() {
 }
 
 export async function getMarketsData() {
-  const [electricity, gas] = await Promise.all([getElectricity(), getGas()]);
+  const [electricity, gas, consumerPrices, gasStorage] = await Promise.all([
+    getElectricity(),
+    getGas(),
+    getConsumerPrices(),
+    getGasStorage(),
+  ]);
   return {
     generatedAt: new Date().toISOString(),
     gmeConnected: gmeConfigured(),
     electricity,
     gas,
+    // Contesto: prezzi medi finali (Eurostat, semestrali) e stoccaggi gas (AGSI+, se configurato)
+    consumerPrices,
+    gasStorage,
   };
 }
 

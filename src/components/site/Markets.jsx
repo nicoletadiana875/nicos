@@ -22,6 +22,14 @@ const formatDay = (iso) =>
     timeZone: "UTC",
   });
 
+const number4 = new Intl.NumberFormat("it-IT", { minimumFractionDigits: 4, maximumFractionDigits: 4 });
+
+// "2025-S2" -> "2° semestre 2025"
+const formatSemester = (code) => {
+  const m = /^(\d{4})-S([12])$/.exec(code ?? "");
+  return m ? `${m[2]}° semestre ${m[1]}` : code;
+};
+
 const formatDateTime = (iso) =>
   new Date(iso).toLocaleString("it-IT", {
     day: "numeric",
@@ -119,6 +127,8 @@ export default function Markets() {
   const loading = data === null;
   const electricity = data?.electricity;
   const gas = data?.gas;
+  const consumerPrices = data?.consumerPrices ?? [];
+  const gasStorage = data?.gasStorage ?? null;
   const gasMissing = !loading && (!gas || gas.value == null);
 
   return (
@@ -163,6 +173,55 @@ export default function Markets() {
 
           <MarketChart gas={gas} />
         </Reveal>
+
+        {(consumerPrices.length > 0 || gasStorage) && (
+          <Reveal delay={0.1}>
+            <div className={styles.contextBlock}>
+              <div>
+                <h3>Quanto si paga in media in Italia</h3>
+                <p>
+                  Prezzi finali medi per kWh pubblicati da Eurostat con cadenza semestrale: non sono
+                  prezzi in tempo reale, per questo è sempre indicato il periodo di riferimento.
+                </p>
+              </div>
+
+              <ul className={styles.contextGrid}>
+                {consumerPrices.map((item) => (
+                  <li key={item.id} className={styles.contextTile}>
+                    <span>
+                      {item.audience} · {item.energy}
+                    </span>
+                    <strong>
+                      {number4.format(item.value)} {item.unit}
+                    </strong>
+                    <small>{formatSemester(item.period)}</small>
+                    <small>{item.detail}</small>
+                    {item.eu != null && (
+                      <small>
+                        Media UE: {number4.format(item.eu)} {item.unit}
+                      </small>
+                    )}
+                    <a href={item.source.url} target="_blank" rel="noopener noreferrer">
+                      Fonte: {item.source.name} ↗
+                    </a>
+                  </li>
+                ))}
+
+                {gasStorage && (
+                  <li className={styles.contextTile}>
+                    <span>Gas · stoccaggi in Italia</span>
+                    <strong>{number.format(gasStorage.percent)} %</strong>
+                    <small>pieni al {formatDay(gasStorage.date)}</small>
+                    {gasStorage.twh != null && <small>{number.format(gasStorage.twh)} TWh di gas in stoccaggio</small>}
+                    <a href={gasStorage.source.url} target="_blank" rel="noopener noreferrer">
+                      Fonte: {gasStorage.source.name} ↗
+                    </a>
+                  </li>
+                )}
+              </ul>
+            </div>
+          </Reveal>
+        )}
 
         <Reveal delay={0.1}>
           <div className={styles.liveSources}>

@@ -92,6 +92,11 @@ nella casella di posta. Al cliente arriva una conferma che non riporta il testo 
   l'integrazione e' spenta finche' non e' impostata anche `GME_COMMERCIAL_LICENSE=confirmed`, da
   fare solo dopo aver ottenuto la licenza (contatto: info@mercatoelettrico.org).
   Quando e' attiva il sito riporta "Fonte: Gestore dei Mercati Energetici S.p.A.".
+- **Prezzi finali medi** (Eurostat, semestrali, nessuna chiave): famiglie e imprese, elettricita' e gas,
+  con confronto con la media UE. Riuso commerciale consentito citando la fonte. Sono sempre mostrati
+  con il periodo di riferimento; non sono dati in tempo reale.
+- **Stoccaggi gas Italia** (GIE AGSI+): si attivano impostando `AGSI_API_KEY` (chiave gratuita, vedi
+  `.env.example`). Senza chiave il riquadro non compare.
 - **Collegamenti in tempo reale**: la sezione Mercati rimanda alle pagine ufficiali (GME, Energy-Charts)
   elencate in `src/config/marketLinks.mjs`. Sono semplici link, non riproducono dati.
 - **Elettricita' senza credenziali GME**: prezzo day-ahead zona Nord da Energy-Charts
