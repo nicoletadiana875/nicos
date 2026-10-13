@@ -434,9 +434,9 @@ export const termsDoc = {
 };
 
 export const photoCredits = [
-  { name: "Watt A Lot", work: "A house with solar panels" },
+  { name: "Vitaly Gariev", work: "Two colleagues collaborating on a laptop in office" },
   { name: "Olena Kholina", work: "Two people reviewing documents at a table" },
-  { name: "Lynn Van den Broeck", work: "A living room with a couch and a table" },
+  { name: "Markus Winkler", work: "Stock market chart displayed on laptop screen" },
   { name: "Tyler Franta", work: "Person using laptop on white wooden table" },
   { name: "Vitaly Gariev", work: "Couple looking stressed over bills at kitchen table" },
   { name: "Giorgio Tomassetti", work: "Two women analyze a line graph on a screen" },

@@ -49,14 +49,14 @@ export default function Hero() {
             <span className={styles.heroArc} aria-hidden="true" />
 
             <Reveal delay={0.1} className={styles.heroMainItem}>
-              <figure className={styles.heroMain} aria-label="Casa con pannelli solari">
+              <figure className={styles.heroMain} aria-label="Consulenti che analizzano una bolletta">
                 <Parallax from={0} to={-36} className={styles.heroParallax}>
                   <img
-                    src="/images/hero-casa-solare.jpg"
-                    alt="Casa con pannelli solari sul tetto sotto un cielo sereno"
+                    src="/images/consulenti-bolletta.jpg"
+                    alt="Due consulenti analizzano insieme al computer una bolletta in un ufficio luminoso"
                     className={styles.heroPhoto}
-                    width={1600}
-                    height={901}
+                    width={1260}
+                    height={1008}
                     fetchPriority="high"
                     decoding="async"
                   />
@@ -65,10 +65,10 @@ export default function Hero() {
             </Reveal>
 
             <Reveal delay={0.3} y={34} className={styles.heroInsetItem}>
-              <figure className={styles.heroInset} aria-label="Casa luminosa e confortevole">
+              <figure className={styles.heroInset} aria-label="Andamento dei prezzi dell'energia">
                 <img
-                  src="/images/casa-italiana.jpg"
-                  alt="Soggiorno luminoso di una casa italiana con arco, finestra con tapparella e pavimento in cotto"
+                  src="/images/mercati-grafico.jpg"
+                  alt="Grafico dell'andamento dei prezzi su uno schermo di computer"
                   className={styles.heroInsetPhoto}
                   width={1000}
                   height={750}

@@ -22,9 +22,9 @@ Sito disponibile su `http://localhost:3000`.
 
 Fotografie da [Unsplash](https://unsplash.com) (Unsplash License, uso commerciale consentito, attribuzione non obbligatoria ma indicata per correttezza):
 
-- `public/images/hero-casa-solare.jpg` — Watt A Lot, "A house with solar panels"
+- `public/images/consulenti-bolletta.jpg` — Vitaly Gariev, "Two colleagues collaborating on a laptop in office" (ritagliata)
 - `public/images/consulenza-documenti.jpg` — Olena Kholina, "Two people reviewing documents at a table"
-- `public/images/casa-italiana.jpg` — Lynn Van den Broeck, "A living room with a couch and a table" (ritagliata)
+- `public/images/mercati-grafico.jpg` — Markus Winkler, "Stock market chart displayed on laptop screen" (ritagliata)
 - `public/images/uffici-laptop.jpg` — Tyler Franta, "Person using laptop on white wooden table"
 - `public/images/bolletta-cucina.jpg` — Vitaly Gariev, "Couple looking stressed over bills at kitchen table"
 - `public/images/analisi-grafico.jpg` — Giorgio Tomassetti, "Two women analyze a line graph on a screen" (ritagliata)
@@ -124,3 +124,27 @@ Per provare l'invio reale con la tua casella: compila `SMTP_PASS` in `.env.local
 2. `legal.draft = false` in `src/config/legal.mjs`;
 3. variabili d'ambiente impostate su Vercel e `npm run test:email` riuscito;
 4. prova reale del modulo (con allegato) e dei pulsanti WhatsApp/Chiama dal telefono.
+
+## Attivare l'invio email con Gmail (password per le app)
+
+Il sito non usa la password normale del tuo account Google: usa una **password per le app**, valida
+solo per questo sito e revocabile in qualsiasi momento.
+
+1. **Verifica in due passaggi**: Account Google > *Sicurezza* > *Verifica in due passaggi* > attivala.
+2. **Crea la password per le app**: apri <https://myaccount.google.com/apppasswords>, dai un nome
+   (es. "Sito consulenza") e premi *Crea*. Google mostra **una sola volta** 16 lettere.
+   - Se la pagina non è disponibile: la verifica in due passaggi non è attiva, oppure è impostata
+     solo con chiavi di sicurezza/passkey, oppure l'account è di lavoro/scuola o ha la Protezione
+     avanzata attiva.
+3. **Salvala nel sito**: nel terminale del progetto esegui `npm run setup:email` e incolla le
+   16 lettere (non vengono mostrate né registrate; vengono scritte solo in `.env.local`).
+4. **Prova**: `npm run test:email`. Se tutto funziona ricevi una email con un PDF allegato.
+5. **Online (Vercel)**: aggiungi le stesse variabili in *Settings > Environment Variables*
+   (`SMTP_HOST`, `SMTP_PORT`, `SMTP_USER`, `SMTP_PASS`, spuntando "Sensitive" per la password),
+   poi ripubblica. In Vercel non esiste `.env.local`.
+
+Revoca: nella stessa pagina elimina la password per le app. Cambiando la password dell'account
+Google, tutte le password per le app vengono revocate automaticamente.
+
+Sicurezza: `.env.local` è ignorato da git, la password non è mai nel codice, non viene stampata
+nei log e non arriva mai al browser (non inizia con `NEXT_PUBLIC_`).

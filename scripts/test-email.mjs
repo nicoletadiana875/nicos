@@ -15,6 +15,12 @@ for (const file of [".env.local", ".env"]) {
 
 const args = process.argv.slice(2);
 const settings = readMailSettings();
+
+// Qualsiasi testo stampato passa da qui: la password non compare mai
+const redact = (text) => {
+  const secret = settings.smtp.pass;
+  return secret ? String(text ?? "").split(secret).join("***") : String(text ?? "");
+};
 const mask = (v) => (v ? v.replace(/(^.).*(@.*$)/, "$1***$2") : "(non impostato)");
 
 console.log("Configurazione email");
@@ -37,7 +43,7 @@ try {
   await transport.verify();
   console.log("\nOK  connessione e login al server di posta riusciti.");
 } catch (error) {
-  console.error("\nERRORE: connessione o login non riusciti:", error.code ?? "", error.message);
+  console.error("\nERRORE: connessione o login non riusciti:", error.code ?? "", redact(error.message));
   console.error("Controlla SMTP_HOST, SMTP_PORT, SMTP_USER e SMTP_PASS (con Gmail serve una 'password per le app').");
   process.exit(1);
 }
@@ -66,6 +72,6 @@ try {
     console.log(`OK  email di conferma-cliente di prova inviata a ${settings.to}.`);
   }
 } catch (error) {
-  console.error("ERRORE: invio non riuscito:", error.code ?? "", error.message);
+  console.error("ERRORE: invio non riuscito:", error.code ?? "", redact(error.message));
   process.exit(1);
 }
