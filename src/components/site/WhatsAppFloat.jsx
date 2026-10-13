@@ -25,6 +25,7 @@ export default function WhatsAppFloat() {
   return (
     <LiquidButton
       href={site.whatsappUrl}
+      compact
       className={`${styles.whatsappFloat} ${hidden ? styles.whatsappFloatHidden : ""}`}
       target="_blank"
       rel="noopener noreferrer"

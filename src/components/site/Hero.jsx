@@ -1,7 +1,8 @@
 import Icon from "@/components/site/Icon";
 import LiquidButton from "@/components/site/LiquidButton";
+import Parallax from "@/components/site/Parallax";
 import Reveal from "@/components/site/Reveal";
-import { heroContent, site } from "@/content/site";
+import { heroContent } from "@/content/site";
 import styles from "@/styles/site.module.css";
 export default function Hero() {
   return (
@@ -20,7 +21,7 @@ export default function Hero() {
               <LiquidButton href={heroContent.primaryCta.href}>
                 {heroContent.primaryCta.label}
               </LiquidButton>
-              <LiquidButton href={heroContent.secondaryCta.href}>
+              <LiquidButton href={heroContent.secondaryCta.href} variant="secondary">
                 {heroContent.secondaryCta.label}
               </LiquidButton>
             </div>
@@ -33,16 +34,24 @@ export default function Hero() {
         </div>
         <div className={styles.heroVisualColumn}>
           <div className={styles.heroVisualShell}>
-            <figure
-              className={styles.heroFigure}
-              aria-label="Energia elettrica"
-            >
-              <div
-                className={styles.heroBulbVisual}
-                role="img"
-                aria-label="Lampadina accesa, energia elettrica"
-              />
-            </figure>
+            <Reveal delay={0.1}>
+              <figure
+                className={styles.heroFigure}
+                aria-label="Casa con pannelli solari"
+              >
+                <Parallax from={0} to={-32} className={styles.heroParallax}>
+                  <img
+                    src="/images/hero-casa-solare.jpg"
+                    alt="Casa con pannelli solari sul tetto sotto un cielo sereno"
+                    className={styles.heroPhoto}
+                    width={1600}
+                    height={901}
+                    fetchPriority="high"
+                    decoding="async"
+                  />
+                </Parallax>
+              </figure>
+            </Reveal>
           </div>
         </div>
       </div>
@@ -62,6 +71,7 @@ export default function Hero() {
             </Reveal>
           ))}
         </div>
+        <Reveal delay={0.1}>
         <div className={styles.heroInfoCard}>
           <div className={styles.heroInfoHeader}>
             <div>
@@ -87,7 +97,10 @@ export default function Hero() {
             </div>
           </div>
         </div>
+        </Reveal>
       </div>
+      <div className="container">
+      <Reveal>
       <div className={styles.benefitBand}>
         <div className={styles.benefitItem}>
           <strong>Gratuito</strong>
@@ -105,6 +118,8 @@ export default function Hero() {
           <strong>Dati reali</strong>
           <span>Decisioni su bollette e mercato</span>
         </div>
+      </div>
+      </Reveal>
       </div>
     </section>
   );

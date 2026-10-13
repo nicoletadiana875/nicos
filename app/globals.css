@@ -1,24 +1,60 @@
 :root {
-  --bg: #f6f1e8;
-  --bg-soft: #efe7d8;
-  --surface: #ffffff;
-  --surface-muted: #f4eee3;
-  --ink-100: #14532d;
-  --ink-200: #24352b;
-  --text-200: #44403a;
-  --text-300: #6f6a60;
-  --accent-blue: #166534;
-  --accent-blue-dark: #14532d;
-  --accent-blue-soft: #e9efe4;
-  --accent-amber: #d97706;
-  --accent-amber-soft: #fbeedd;
-  --accent-tech: #b45309;
-  --line: rgba(68, 64, 58, 0.14);
-  --line-soft: rgba(68, 64, 58, 0.08);
-  --radius-lg: 24px;
+  /* Palette base: crema, bianco caldo, verde salvia, bordeaux delicato */
+  --cream: #f6f0e4;
+  --cream-deep: #ece3d1;
+  --ivory: #fffdf8;
+  --paper: #faf5ea;
+
+  --sage-50: #eef2ea;
+  --sage-100: #dfe7d7;
+  --sage-300: #a8b99b;
+  --sage-500: #7a916d;
+  --sage-700: #4d6446;
+  --sage-900: #2c3b2a;
+
+  --burgundy-50: #f5e8ea;
+  --burgundy-100: #ead0d4;
+  --burgundy-500: #7b2f3d;
+  --burgundy-600: #67252f;
+  --burgundy-700: #521c25;
+
+  --danger: #a3322f;
+
+  /* Ruoli semantici: i componenti usano solo questi */
+  --bg: var(--cream);
+  --bg-soft: var(--cream-deep);
+  --surface: var(--ivory);
+  --surface-muted: var(--paper);
+  --ink: var(--sage-900);
+  --text: #3e3a34;
+  --text-muted: #675f55;
+  --primary: var(--burgundy-500);
+  --primary-hover: var(--burgundy-600);
+  --primary-press: var(--burgundy-700);
+  --primary-soft: var(--burgundy-50);
+  --accent: var(--sage-700);
+  --accent-soft: var(--sage-100);
+  --on-dark: #f6f0e4;
+  --on-dark-muted: #c9d3c2;
+  --line: rgba(44, 59, 42, 0.14);
+  --line-soft: rgba(44, 59, 42, 0.08);
+  --focus: var(--burgundy-500);
+
+  /* Forma e profondita */
+  --radius-sm: 14px;
   --radius-md: 16px;
-  --shadow-card: none;
-  --shadow-soft: none;
+  --radius-lg: 20px;
+  --radius-xl: 28px;
+  --shadow-card: 0 1px 2px rgba(60, 44, 30, 0.04), 0 10px 26px rgba(60, 44, 30, 0.07);
+  --shadow-soft: 0 2px 4px rgba(60, 44, 30, 0.05), 0 20px 44px rgba(60, 44, 30, 0.12);
+
+  /* Movimento: stessi tempi e stessa curva in tutto il sito */
+  --ease: cubic-bezier(0.22, 1, 0.36, 1);
+  --dur-fast: 0.2s;
+  --dur: 0.35s;
+
+  --btn-h: 52px;
+  --btn-h-compact: 46px;
   --container: min(1180px, calc(100% - 48px));
   --font-heading: var(--font-outfit), 'Segoe UI', system-ui, -apple-system, sans-serif;
   --font-body: var(--font-outfit), 'Segoe UI', system-ui, -apple-system, sans-serif;
@@ -30,16 +66,16 @@
 
 html {
   scroll-behavior: smooth;
-  scroll-padding-top: 96px;
+  scroll-padding-top: 72px;
 }
 
 
 body {
   position: relative;
   margin: 0;
-  color: var(--text-200);
+  color: var(--text);
   font-family: var(--font-body);
-  background: #f6f1e8;
+  background: var(--bg);
 }
 
 main {
@@ -70,7 +106,7 @@ h1,
 h2,
 h3 {
   margin: 0;
-  color: var(--ink-100);
+  color: var(--ink);
   line-height: 1.1;
 }
 
@@ -106,39 +142,17 @@ button {
 }
 
 p {
-  color: var(--text-300);
-}
-.btn {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  min-height: 52px;
-  padding: 0 22px;
-  border-radius: 999px;
-  border: 1px solid transparent;
-  text-decoration: none;
-  font-weight: 700;
-  letter-spacing: 0.01em;
-  transition: transform 0.24s ease, border-color 0.24s ease, background 0.24s ease, box-shadow 0.24s ease;
-  cursor: pointer;
+  color: var(--text-muted);
 }
 
-.btn:hover {
-  transform: translateY(-2px);
+:focus-visible {
+  outline: 2px solid var(--focus);
+  outline-offset: 3px;
 }
 
-
-.btn-primary {
-  background: linear-gradient(145deg, #d97706, #b45309);
-  color: #fff;
-  box-shadow: 0 14px 30px rgba(217, 119, 6, 0.3);
-}
-
-.btn-secondary {
-  background: #fff;
-  color: var(--accent-blue-dark);
-  border-color: rgba(68, 64, 58, 0.16);
-  box-shadow: var(--shadow-card);
+::selection {
+  background: var(--burgundy-100);
+  color: var(--burgundy-700);
 }
 
 @media (max-width: 640px) {
@@ -155,5 +169,27 @@ p {
   }
 }
 
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
 
-body::before { content: ''; position: fixed; inset: 0; z-index: -2; pointer-events: none; background: radial-gradient(ellipse 90% 55% at 50% -12%, rgba(217, 119, 6, 0.07), transparent 62%); }
+  *,
+  *::before,
+  *::after {
+    transition-duration: 0.01ms !important;
+    animation-duration: 0.01ms !important;
+  }
+}
+
+
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  z-index: -2;
+  pointer-events: none;
+  background:
+    radial-gradient(ellipse 80% 50% at 85% -10%, rgba(123, 47, 61, 0.07), transparent 62%),
+    radial-gradient(ellipse 70% 45% at 5% 0%, rgba(122, 145, 109, 0.14), transparent 60%);
+}

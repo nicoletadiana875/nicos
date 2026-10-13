@@ -37,25 +37,33 @@ export default function About() {
 
           <div className={styles.aboutAside}>
             <div className={styles.aboutMediaColumn}>
-              <figure className={styles.aboutFigure} aria-label="Energia rinnovabile">
-                <img
-                  src="/images/natura-eco.png"
-                  alt="Energia rinnovabile, germoglio verde"
-                  className={styles.chiSonoVisualImage}
-                  loading="lazy"
-                  decoding="async"
-                />
-              </figure>
+              <Reveal className={styles.aboutMediaItem}>
+                <figure className={styles.aboutFigure} aria-label="Analisi dei documenti">
+                  <img
+                    src="/images/consulenza-documenti.jpg"
+                    alt="Due professionisti esaminano insieme documenti e contratti su un tavolo"
+                    className={styles.chiSonoVisualImage}
+                    width={1600}
+                    height={1067}
+                    loading="lazy"
+                    decoding="async"
+                  />
+                </figure>
+              </Reveal>
 
-              <figure className={styles.aboutFigure} aria-label="Risparmio ed energia verde">
-                <img
-                  src="/images/emblema-eco.png"
-                  alt="Risparmio ed energia verde"
-                  className={styles.chiSonoVisualImage}
-                  loading="lazy"
-                  decoding="async"
-                />
-              </figure>
+              <Reveal className={styles.aboutMediaItem} delay={0.12}>
+                <figure className={styles.aboutFigure} aria-label="Gestione dei consumi di casa">
+                  <img
+                    src="/images/termostato-casa.jpg"
+                    alt="Mani che regolano un termostato digitale per gestire i consumi di riscaldamento"
+                    className={styles.chiSonoVisualImage}
+                    width={1600}
+                    height={1200}
+                    loading="lazy"
+                    decoding="async"
+                  />
+                </figure>
+              </Reveal>
             </div>
           </div>
         </div>

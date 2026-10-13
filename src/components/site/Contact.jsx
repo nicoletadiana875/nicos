@@ -206,7 +206,7 @@ export default function Contact() {
               />
             </div>
 
-            <LiquidButton type="submit" className={styles.headerLiquidCta}>
+            <LiquidButton type="submit">
               Invia richiesta
             </LiquidButton>
 
@@ -215,7 +215,7 @@ export default function Contact() {
                 className={styles.feedback}
                 aria-live="polite"
                 style={{
-                  color: isError ? "var(--color-danger, #e05c5c)" : undefined,
+                  color: isError ? "var(--danger)" : undefined,
                 }}
               >
                 {feedback}

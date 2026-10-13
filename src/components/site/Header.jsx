@@ -36,7 +36,7 @@ export default function Header() {
         </nav>
 
         <div className={styles.headerActions}>
-          <LiquidButton href="#contatti" className={styles.headerLiquidCta}>
+          <LiquidButton href="#contatti" compact className={styles.headerLiquidCta}>
             Parla con me
           </LiquidButton>
           <button
