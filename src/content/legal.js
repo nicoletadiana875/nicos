@@ -275,7 +275,7 @@ export const cookieDoc = {
       title: "4. Collegamenti a siti e servizi di terzi",
       blocks: [
         {
-          p: "Il sito contiene collegamenti a servizi esterni che l'utente raggiunge solo se li seleziona, ad esempio **WhatsApp** (pulsante di contatto) e i siti delle fonti dei dati di mercato. Su quei siti si applicano le rispettive informative e cookie policy, sulle quali il titolare non ha controllo.",
+          p: "Il sito contiene collegamenti a servizi esterni che l'utente raggiunge solo se li seleziona, ad esempio **WhatsApp** (pulsante di contatto). Su quel sito si applicano le rispettive informative e cookie policy, sulle quali il titolare non ha controllo.",
         },
       ],
     },
@@ -372,17 +372,8 @@ export const termsDoc = {
       ],
     },
     {
-      id: "mercati",
-      title: "6. Dati di mercato",
-      blocks: [
-        {
-          p: "Il valore del gas riportato nel sito (PSV day-ahead, media mensile) ha finalità informativa. Proviene dalla fonte indicata accanto al valore (ARERA) e può subire ritardi o revisioni. Non costituisce offerta, garanzia di prezzo né consulenza finanziaria. Quando la fonte non è disponibile il sito lo indica e non mostra valori stimati.",
-        },
-      ],
-    },
-    {
       id: "responsabilita",
-      title: "7. Responsabilità",
+      title: "6. Responsabilità",
       blocks: [
         {
           p: "Il titolare opera con la diligenza professionale richiesta. Nei limiti consentiti dalla legge, non risponde di interruzioni o malfunzionamenti del sito, dell'indisponibilità o inesattezza di dati forniti da terzi, né di decisioni prese dall'utente sulla base di informazioni incomplete o non veritiere. Restano ferme le responsabilità che la legge non consente di escludere e i diritti inderogabili dei consumatori.",
@@ -395,7 +386,7 @@ export const termsDoc = {
     },
     {
       id: "pi",
-      title: "8. Proprietà intellettuale e crediti",
+      title: "7. Proprietà intellettuale e crediti",
       blocks: [
         {
           p: "I testi, la grafica e l'organizzazione del sito sono del titolare. Le fotografie provengono da [Unsplash](https://unsplash.com) e sono utilizzate secondo la Unsplash License; i crediti sono elencati di seguito.",
@@ -405,7 +396,7 @@ export const termsDoc = {
     },
     {
       id: "privacy",
-      title: "9. Privacy",
+      title: "8. Privacy",
       blocks: [
         {
           p: "Il trattamento dei dati personali è descritto nell'[Informativa sulla privacy](/privacy) e nella [Cookie Policy](/cookie).",
@@ -414,7 +405,7 @@ export const termsDoc = {
     },
     {
       id: "legge",
-      title: "10. Legge applicabile e foro competente",
+      title: "9. Legge applicabile e foro competente",
       blocks: [
         {
           p: "Salvo diversa previsione inderogabile, si applica la legge italiana. {{terms.jurisdiction}} Per i consumatori restano ferme le norme di legge sul foro del luogo di residenza o di domicilio.",
@@ -423,7 +414,7 @@ export const termsDoc = {
     },
     {
       id: "modifiche",
-      title: "11. Modifiche",
+      title: "10. Modifiche",
       blocks: [
         {
           p: "Questi termini possono essere aggiornati; la versione in vigore è quella pubblicata in questa pagina, con la data di ultimo aggiornamento.",

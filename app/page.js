@@ -5,7 +5,6 @@ import About from "@/components/site/About";
 import Method from "@/components/site/Method";
 import ScrollProgress from "@/components/site/ScrollProgress";
 import Services from "@/components/site/Services";
-import Markets from "@/components/site/Markets";
 import WhyChooseMe from "@/components/site/WhyChooseMe";
 import Contact from "@/components/site/Contact";
 import WhatsAppFloat from "@/components/site/WhatsAppFloat";
@@ -43,7 +42,6 @@ export default function HomePage() {
         <About />
         <Method />
         <Services />
-        <Markets />
         <WhyChooseMe />
         <Contact />
       </main>

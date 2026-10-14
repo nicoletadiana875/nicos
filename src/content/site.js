@@ -15,7 +15,6 @@ export const site = {
     { href: "#home", label: "Home" },
     { href: "#chi-sono", label: "Chi sono" },
     { href: "#servizi", label: "Servizi" },
-    { href: "#mercati", label: "Mercati" },
     { href: "#perche-scegliere-me", label: "Perché scegliere me" },
     { href: "#contatti", label: "Contatti" }
   ]
@@ -119,20 +118,6 @@ export const servicesContent = {
       detail:
         "Resti sempre aggiornato su andamento fornitura e possibili azioni correttive."
     }
-  ]
-};
-
-export const marketsContent = {
-  title: "Mercato del gas",
-  description:
-    "Il riferimento all'ingrosso del prezzo del gas in Italia, aggiornato ogni mese.",
-  noteTitle: "Perché questa sezione è strategica",
-  noteText:
-    "Gli indici non sono un elemento decorativo: servono a contestualizzare prezzi e decisioni commerciali con maggiore precisione.",
-  readiness: [
-    "Integrazione API pronta in ambiente Next.js.",
-    "Struttura estendibile a fonti dati ufficiali.",
-    "Visualizzazione semplice, pensata per clienti business."
   ]
 };
 

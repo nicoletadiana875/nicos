@@ -11,7 +11,7 @@ Sito disponibile su `http://localhost:3000`.
 
 ## Struttura
 
-- `app/`: routing Next.js, layout, pagina principale, API route markets
+- `app/`: routing Next.js, layout, pagina principale, API contatti
 - `src/components/layout`: Header e Footer
 - `src/components/sections`: sezioni modulari della home
 - `src/components/ui`: componenti riusabili UI
@@ -82,16 +82,6 @@ nella casella di posta. Al cliente arriva una conferma che non riporta il testo 
 - Il modulo richiede la presa visione dell'informativa e registra nell'email la versione letta
   (`legal.version`). Il consenso promozionale, separato e facoltativo, si attiva con
   `collectPromoConsent: true` in `src/config/legal.mjs`.
-
-## Dato di mercato mostrato
-
-Il sito mostra **solo il PSV day-ahead medio del mese** (gas), letto da solo dalla nota che ARERA
-pubblica ogni mese. Si vede con il mese di riferimento e la fonte; riuso consentito citando la fonte
-(CC BY-SA 4.0), senza usare logo o pagine. Nessun valore e' stimato: oltre 4 mesi di ritardo non
-viene mostrato. Codice: `src/lib/psv.js`.
-
-I prezzi live (PUN, grafici) sono stati rimossi su richiesta. Per i dati ufficiali GME in
-tempo reale servirebbe una licenza commerciale scritta di GME.
 
 ## Pubblicazione e anteprima
 

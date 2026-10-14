@@ -117,7 +117,7 @@ export default function Hero() {
                 <Icon name="market" className={styles.icon} />
               </span>
               <div>
-                <h3>Dati di mercato</h3>
+                <h3>Metodo basato sui dati</h3>
                 <p>{heroContent.panelText}</p>
               </div>
             </div>

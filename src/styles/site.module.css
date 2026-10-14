@@ -1,5 +1,4 @@
 /* ===== Header ===== */
-
 .header {
   position: sticky;
   top: 0;
@@ -87,7 +86,6 @@
   text-overflow: ellipsis;
 }
 
-
 .nav {
   display: grid;
   grid-auto-flow: column;
@@ -143,9 +141,7 @@
   display: none;
 }
 
-
 /* ===== Hero ===== */
-
 .hero {
   padding: clamp(78px, 8vw, 106px) 0 clamp(84px, 9vw, 116px);
 }
@@ -252,9 +248,7 @@
   line-height: 1.6;
 }
 
-
 /* ===== Pulsanti (unica base per tutto il sito) ===== */
-
 .liquidBtn {
   position: relative;
   display: inline-flex;
@@ -333,9 +327,7 @@
   min-width: 132px;
 }
 
-
 /* ===== Hero: card, foto, riquadri ===== */
-
 .heroBottomRow {
   display: grid;
   grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
@@ -485,7 +477,6 @@
   }
 }
 
-
 .heroInfoCard {
   padding: clamp(20px, 2.1vw, 28px);
   border-radius: var(--radius-lg);
@@ -593,9 +584,7 @@
   transform: scale(1.08) rotate(-4deg);
 }
 
-
 /* ===== Sezioni, intestazioni ===== */
-
 .section {
   position: relative;
   padding: clamp(84px, 9vw, 116px) 0;
@@ -766,12 +755,8 @@
   transform: scale(1.04);
 }
 
-
 /* ===== Schede (base condivisa) ===== */
-
 .serviceCard,
-.marketCard,
-.marketMetaCard,
 .pillarCard,
 .contactInfoCard,
 .contactProcessCard,
@@ -784,8 +769,6 @@
 }
 
 .serviceCard,
-.marketCard,
-.marketMetaCard,
 .pillarCard,
 .contactInfoCard,
 .contactProcessCard,
@@ -794,8 +777,6 @@
 }
 
 .serviceCard,
-.marketCard,
-.marketMetaCard,
 .pillarCard,
 .heroHighlightCard,
 .audienceCard,
@@ -805,7 +786,6 @@
 
 .serviceCard:hover,
 .pillarCard:hover,
-.marketCard:hover,
 .heroHighlightCard:hover,
 .audienceCard:hover,
 .statItem:hover {
@@ -950,9 +930,7 @@
   transform: translateX(4px);
 }
 
-
 /* ===== Fasce con vantaggi e numeri ===== */
-
 .benefitBand {
   display: grid;
   grid-template-columns: repeat(4, minmax(0, 1fr));
@@ -1017,36 +995,6 @@
   font-size: 0.9rem;
 }
 
-
-/* ===== Mercati e grafici ===== */
-
-.marketSection {
-  background: transparent;
-}
-
-.marketCardsRow {
-  display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: clamp(12px, 1.4vw, 18px);
-  margin-bottom: clamp(12px, 1.4vw, 18px);
-}
-
-.marketSingle {
-  max-width: 520px;
-  margin-bottom: clamp(12px, 1.4vw, 18px);
-}
-
-.marketSingle .marketCard span {
-  color: var(--primary);
-}
-
-.marketCard,
-.marketMetaCard {
-  padding: clamp(18px, 1.9vw, 26px);
-}
-
-.marketCard span,
-.marketMetaCard span,
 .contactInfoRow > div > span,
 .contactProcessCard span {
   display: block;
@@ -1059,29 +1007,6 @@
 }
 
 /* Elettricita in salvia, gas in bordeaux: stessa logica nelle schede e nei grafici */
-.marketCardsRow .marketCard:nth-child(2) span {
-  color: var(--primary);
-}
-
-.marketCard p,
-.marketMetaCard p {
-  margin: 10px 0 0;
-  color: var(--text);
-}
-
-.marketCard p {
-  font-size: 1.55rem;
-  line-height: 1.2;
-}
-
-.marketNote {
-  margin: 4px 0 0;
-  font-size: 0.78rem;
-  color: var(--text-muted);
-  font-style: italic;
-  letter-spacing: 0.01em;
-}
-
 .chartWrapper {
   display: grid;
   grid-template-columns: 1fr 1fr;
@@ -1199,9 +1124,7 @@
   line-height: 1.6;
 }
 
-
 /* ===== Contatti e modulo ===== */
-
 .contactGrid {
   align-items: stretch;
 }
@@ -1335,9 +1258,7 @@
   color: var(--text);
 }
 
-
 /* ===== Footer, WhatsApp, carosello ===== */
-
 .footer {
   position: relative;
   padding: 52px 0 96px;
@@ -1498,9 +1419,7 @@
   transform: scale(1.4);
 }
 
-
 /* ===== Sfondi animati e divisori ===== */
-
 .section > :global(.container),
 .hero > :global(.container) {
   position: relative;
@@ -1689,9 +1608,7 @@
   pointer-events: none;
 }
 
-
 /* ===== Percorso di consulenza ===== */
-
 .methodList {
   position: relative;
   display: grid;
@@ -1794,9 +1711,7 @@
   font-size: 1.05rem;
 }
 
-
 /* ===== Fascia scura con fotografia ===== */
-
 .whySection {
   background: var(--sage-900);
 }
@@ -1846,68 +1761,67 @@
   background: linear-gradient(90deg, transparent, var(--burgundy-100));
 }
 
-
 /* ===== Responsive ===== */
-
 @media (max-width: 1120px) {
-  .headerInner {
+.headerInner {
     gap: 18px;
     padding: 0 8px;
   }
 
-  .nav {
+.nav {
     gap: 14px;
   }
 
-  .nav a {
+.nav a {
     font-size: 0.86rem;
   }
 
-  .heroGrid,
-  .aboutGrid,
-  .contactGrid {
+.heroGrid,
+.aboutGrid,
+.contactGrid {
     grid-template-columns: 1fr;
   }
 
-  .heroVisualColumn {
+.heroVisualColumn {
     max-width: 100%;
   }
 
-  .aboutCopy,
-  .aboutAside {
+.aboutCopy,
+.aboutAside {
     height: auto;
   }
 
-  .aboutGrid.chiSonoGrid {
+.aboutGrid.chiSonoGrid {
     grid-template-columns: 1fr;
     gap: 24px;
     align-items: start;
   }
 
-  .aboutMediaColumn {
+.aboutMediaColumn {
     flex: none;
     min-height: min(78vw, 520px);
   }
 
-  .heroCollage {
+.heroCollage {
     max-width: 640px;
     margin-inline: auto;
   }
 
-  .carouselSlide {
+.carouselSlide {
     flex-basis: calc((100% - clamp(14px, 1.8vw, 24px)) / 2);
   }
+
 }
 
 @media (max-width: 920px) {
-  .headerInner {
+.headerInner {
     min-height: 84px;
     grid-template-columns: 1fr;
     gap: 12px;
     padding: 14px 0 10px;
   }
 
-  .nav {
+.nav {
     justify-content: flex-start;
     overflow-x: auto;
     white-space: nowrap;
@@ -1916,116 +1830,112 @@
     -webkit-overflow-scrolling: touch;
   }
 
-  .nav a {
+.nav a {
     font-size: 0.9rem;
   }
 
-  .servicesGrid,
-  .pillarsGrid,
-  .formRow,
-  .heroAudienceGrid {
+.servicesGrid,
+.pillarsGrid,
+.formRow,
+.heroAudienceGrid {
     grid-template-columns: 1fr;
   }
 
-  .heroInfoHeader {
+.heroInfoHeader {
     flex-direction: column;
     align-items: flex-start;
   }
 
-  .benefitBand,
-  .statsGrid {
+.benefitBand,
+.statsGrid {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 
-  .methodRail {
+.methodRail {
     left: 11px;
   }
 
-  .methodStep {
+.methodStep {
     grid-template-columns: 1fr;
     gap: 20px;
     padding-left: 38px;
   }
 
-  .methodStep::before {
+.methodStep::before {
     left: 11px;
     top: 22px;
     margin: -9px 0 0 -9px;
   }
 
-  .methodStepFlip .methodMedia {
+.methodStepFlip .methodMedia {
     order: 0;
   }
+
 }
 
-
 @media (max-width: 640px) {
-  .hero,
-  .section {
+.hero,
+.section {
     padding: 74px 0;
   }
 
-  .headerInner {
+.headerInner {
     grid-template-columns: minmax(0, 1fr) auto;
     min-height: 68px;
     gap: 12px;
   }
 
-  .headerLiquidCta {
+.headerLiquidCta {
     padding: 0 16px;
   }
 
-  .heroGrid {
+.heroGrid {
     gap: 28px;
   }
 
-  .heroText {
+.heroText {
     margin-top: 18px;
     font-size: 1rem;
     line-height: 1.68;
   }
 
-  .heroActions {
+.heroActions {
     margin-top: 24px;
   }
 
-  .heroHighlights {
+.heroHighlights {
     margin-top: 24px;
   }
 
-  .heroPhoto {
+.heroPhoto {
     object-position: center 40%;
   }
 
-  .heroHighlightCard,
-  .pillarCard,
-  .contactInfoRow {
+.heroHighlightCard,
+.pillarCard,
+.contactInfoRow {
     grid-template-columns: 1fr;
   }
 
-  .floatStack {
+.floatStack {
     right: 14px;
     bottom: 14px;
   }
 
-  .floatCall {
+.floatCall {
     display: inline-flex;
   }
 
-  .floatStack > a {
+.floatStack > a {
     min-height: 44px;
     padding: 0 16px;
   }
 
-  .marketCardsRow {
-    grid-template-columns: 1fr;
-  }
-
-  .nav {
+.nav {
     display: none;
   }
 
-  .menuToggle {
+.menuToggle {
     display: inline-flex;
     flex-direction: column;
     justify-content: center;
@@ -2040,18 +1950,18 @@
     transition: border-color var(--dur-fast) var(--ease), background var(--dur-fast) var(--ease);
   }
 
-  .menuToggle:hover {
+.menuToggle:hover {
     border-color: var(--primary);
   }
 
-  .menuToggle span {
+.menuToggle span {
     display: block;
     height: 2px;
     border-radius: 2px;
     background: var(--ink);
   }
 
-  .mobileNav {
+.mobileNav {
     display: none;
     position: absolute;
     left: 0;
@@ -2063,12 +1973,12 @@
     box-shadow: 0 18px 30px rgba(60, 44, 30, 0.14);
   }
 
-  .mobileNavOpen {
+.mobileNavOpen {
     display: grid;
     gap: 2px;
   }
 
-  .mobileNav a {
+.mobileNav a {
     padding: 11px 8px;
     border-radius: 10px;
     border-bottom: 1px solid var(--line-soft);
@@ -2078,121 +1988,86 @@
     transition: color var(--dur-fast) var(--ease), background var(--dur-fast) var(--ease);
   }
 
-  .mobileNav a:hover {
+.mobileNav a:hover {
     color: var(--primary);
     background: var(--primary-soft);
   }
 
-  .mobileNav a:last-child {
+.mobileNav a:last-child {
     border-bottom: 0;
   }
 
-  .heroBottomRow {
+.heroBottomRow {
     grid-template-columns: 1fr;
   }
 
-  .formRow {
+.formRow {
     grid-template-columns: 1fr;
   }
 
-  .benefitBand,
-  .statsGrid {
+.benefitBand,
+.statsGrid {
     grid-template-columns: 1fr;
   }
 
-  .carouselSlide {
+.carouselSlide {
     flex-basis: 100%;
   }
 
-  .footerCopy {
+.footerCopy {
     font-size: 0.82rem;
   }
 
-  .heroCollage {
+.heroCollage {
     padding-left: 16px;
   }
 
-  .heroMain {
+.heroMain {
     border-radius: var(--radius-lg) var(--radius-lg) var(--radius-lg) 64px;
   }
 
-  .orbLight,
-  .flowPulseSlow {
+.orbLight,
+.flowPulseSlow {
     display: none;
   }
 
-  .orbWine {
+.orbWine {
     opacity: 0.45;
   }
 
-  .aboutMediaMain {
+.aboutMediaMain {
     width: 84%;
   }
 
-  .aboutMediaInset {
+.aboutMediaInset {
     width: 64%;
   }
+
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .carouselTrack {
+.carouselTrack {
     scroll-behavior: auto;
   }
 
-  .serviceCard:hover,
-  .pillarCard:hover,
-  .marketCard:hover,
-  .heroHighlightCard:hover,
-  .audienceCard:hover,
-  .statItem:hover,
-  .aboutFigure:hover .chiSonoVisualImage,
-  .heroHighlightCard:hover .iconBadge,
-  .pillarCard:hover .iconBadge,
-  .serviceCard:hover .iconBadge,
-  .serviceCard:hover .serviceMediaImg,
-  .contactInfoRow:hover .iconBadge,
-  .liquidBtn:hover {
+.serviceCard:hover,
+.pillarCard:hover,
+.heroHighlightCard:hover,
+.audienceCard:hover,
+.statItem:hover,
+.aboutFigure:hover .chiSonoVisualImage,
+.heroHighlightCard:hover .iconBadge,
+.pillarCard:hover .iconBadge,
+.serviceCard:hover .iconBadge,
+.serviceCard:hover .serviceMediaImg,
+.contactInfoRow:hover .iconBadge,
+.liquidBtn:hover {
     transform: none;
   }
+
 }
-
-/* ===== Mercati: dettaglio fonte e stato dei dati ===== */
-
-.marketCardMeta {
-  display: grid;
-  gap: 4px;
-  margin-top: 10px;
-}
-
-.marketCardMeta small {
-  display: block;
-  color: var(--text-muted);
-  font-size: 0.8rem;
-  line-height: 1.45;
-}
-
-.marketStale {
-  color: var(--primary);
-  font-weight: 600;
-}
-
-.marketSource {
-  color: var(--text-muted);
-  font-size: 0.78rem;
-  line-height: 1.4;
-  text-decoration: underline;
-  text-decoration-color: var(--sage-300);
-  text-underline-offset: 3px;
-  transition: color var(--dur-fast) var(--ease);
-}
-
-.marketSource:hover {
-  color: var(--primary);
-}
-
 
 /* ===== Contatti: azioni rapide, privacy nel modulo ===== */
-
 .contactActions {
   display: flex;
   flex-wrap: wrap;
@@ -2247,9 +2122,7 @@
   line-height: 1.5;
 }
 
-
 /* ===== Footer: collegamenti legali ===== */
-
 .footerSubline a {
   color: inherit;
   text-decoration: underline;
@@ -2285,9 +2158,7 @@
   text-decoration-color: var(--ivory);
 }
 
-
 /* ===== Pagine legali ===== */
-
 .legalMain {
   position: relative;
   padding: clamp(44px, 6vw, 80px) 0 clamp(96px, 9vw, 130px);
@@ -2449,9 +2320,7 @@
   margin-top: 40px;
 }
 
-
 /* ===== Consenso cookie (banner e preferenze) ===== */
-
 .consentBanner {
   position: fixed;
   left: 16px;
@@ -2674,13 +2543,15 @@
 }
 
 @media (max-width: 640px) {
-  .consentBanner {
+.consentBanner {
     left: 10px;
     right: 10px;
     bottom: 10px;
   }
 
-  .consentBtn {
+.consentBtn {
     flex: 1 1 140px;
   }
+
 }
+
