@@ -92,6 +92,10 @@ nella casella di posta. Al cliente arriva una conferma che non riporta il testo 
   l'integrazione e' spenta finche' non e' impostata anche `GME_COMMERCIAL_LICENSE=confirmed`, da
   fare solo dopo aver ottenuto la licenza (contatto: info@mercatoelettrico.org).
   Quando e' attiva il sito riporta "Fonte: Gestore dei Mercati Energetici S.p.A.".
+- **Gas, PSV medio del mese** (ARERA): ogni mese ARERA pubblica il valore della materia prima gas,
+  calcolato come media mensile del PSV day-ahead. Il sito lo legge da solo (nota stampa mensile) e lo
+  mostra con il mese di riferimento e la fonte. Riuso consentito citando la fonte (CC BY-SA 4.0);
+  non si usano logo e pagine. Vedi `src/lib/psv.js`.
 - **Prezzi finali medi** (Eurostat, semestrali, nessuna chiave): famiglie e imprese, elettricita' e gas,
   con confronto con la media UE. Riuso commerciale consentito citando la fonte. Sono sempre mostrati
   con il periodo di riferimento; non sono dati in tempo reale.

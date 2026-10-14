@@ -25,6 +25,7 @@ import {
   getEnergyChartsPoints,
 } from "@/lib/energyCharts";
 import { getConsumerPrices } from "@/lib/eurostat";
+import { PSV_SOURCE_NAME, getMonthlyPsv } from "@/lib/psv";
 import { getGasStorage } from "@/lib/agsi";
 import { romeDate, romeDateOffset, shortLabel } from "@/lib/time";
 
@@ -37,6 +38,11 @@ const LABELS = {
     short: "MGP Nord",
     full: "Prezzo MGP zona Nord",
     detail: "Media giornaliera dei prezzi day-ahead (zona Nord)",
+  },
+  psv: {
+    short: "PSV",
+    full: "PSV day-ahead · media mensile",
+    detail: "Media mensile del PSV day-ahead, valore pubblicato da ARERA",
   },
   igi: {
     short: "PSV · IGI",
@@ -163,8 +169,30 @@ async function getElectricity() {
 }
 
 // ---- gas
+// Valore mensile pubblicato da ARERA (media mensile del PSV day-ahead).
+async function gasFromMonthlyPsv() {
+  const psv = await getMonthlyPsv();
+  // Nessun dato troppo vecchio: oltre 4 mesi di ritardo non lo si mostra
+  if (!psv || psv.monthsBehind < 0 || psv.monthsBehind > 4) return null;
+  return remember("gas", {
+    status: psv.monthsBehind <= 2 ? "live" : "stale",
+    kind: "psv-monthly",
+    shortLabel: LABELS.psv.short,
+    label: LABELS.psv.full,
+    unit: psv.unit,
+    value: psv.value,
+    date: null,
+    period: { month: psv.month, label: psv.monthLabel },
+    next: null,
+    current: null,
+    product: null,
+    source: { name: PSV_SOURCE_NAME, url: psv.url },
+    fetchedAt: new Date().toISOString(),
+  });
+}
+
 async function getGas() {
-  if (!gmeConfigured()) return unavailable("gas");
+  if (!gmeConfigured()) return (await gasFromMonthlyPsv()) ?? unavailable("gas");
 
   try {
     const igi = await cached("gme-igi", 15 * 60_000, getGmeGasIndex);
@@ -185,7 +213,7 @@ async function getGas() {
     });
   } catch (error) {
     console.error("[markets] GME gas:", error?.message ?? error);
-    return fallbackToLastGood("gas");
+    return (await gasFromMonthlyPsv()) ?? fallbackToLastGood("gas");
   }
 }
 

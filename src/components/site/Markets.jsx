@@ -68,10 +68,17 @@ function PriceCard({ item, title, loading, fallback }) {
         <div className={styles.marketCardMeta}>
           {hasValue && item.status === "live" && (
             <>
-              <small>
-                {item.product ? `${item.product} · ` : ""}
-                {item.kind === "igi" ? "Indice del" : "Media del"} {formatDay(item.date)}
-              </small>
+              {item.kind === "psv-monthly" ? (
+                <>
+                  <small>Media mensile di {item.period?.label}</small>
+                  <small>Valore pubblicato da ARERA ogni mese, entro i primi giorni del successivo.</small>
+                </>
+              ) : (
+                <small>
+                  {item.product ? `${item.product} · ` : ""}
+                  {item.kind === "igi" ? "Indice del" : "Media del"} {formatDay(item.date)}
+                </small>
+              )}
               {item.current && item.current.value != null && (
                 <small>Prezzo in questo momento: {number.format(item.current.value)} {item.unit}</small>
               )}
@@ -84,7 +91,8 @@ function PriceCard({ item, title, loading, fallback }) {
           )}
           {hasValue && item.status === "stale" && (
             <small className={styles.marketStale}>
-              Non aggiornato: ultimo dato disponibile del {formatDay(item.date)}.
+              Non aggiornato: ultimo dato disponibile,{" "}
+              {item.kind === "psv-monthly" ? item.period?.label : formatDay(item.date)}.
             </small>
           )}
           {!hasValue && (

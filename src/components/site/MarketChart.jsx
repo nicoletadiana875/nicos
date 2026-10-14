@@ -147,9 +147,13 @@ export default function MarketChart({ gas }) {
                 {number.format(gas.value)} {gas.unit}
               </p>
               <p className={styles.chartPsvNote}>
-                {gas.status === "live"
-                  ? `Indice del ${formatDay(gas.date)}`
-                  : `Non aggiornato: ultimo dato disponibile del ${formatDay(gas.date)}.`}
+                {gas.kind === "psv-monthly"
+                  ? gas.status === "live"
+                    ? `Media mensile di ${gas.period?.label}`
+                    : `Non aggiornato: ultimo dato disponibile, ${gas.period?.label}.`
+                  : gas.status === "live"
+                    ? `Indice del ${formatDay(gas.date)}`
+                    : `Non aggiornato: ultimo dato disponibile del ${formatDay(gas.date)}.`}
                 {gas.product ? ` · ${gas.product}` : ""}
               </p>
               {gas.source && (
