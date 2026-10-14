@@ -6,7 +6,9 @@
 //   SMTP_HOST, SMTP_PORT, SMTP_SECURE, SMTP_USER, SMTP_PASS   server e account di posta (segreti)
 //   CONTACT_TO        destinatario delle richieste (predefinito: NEXT_PUBLIC_CONTACT_EMAIL)
 //   CONTACT_FROM      mittente mostrato nelle email    (predefinito: SMTP_USER)
-//   CONTACT_CONFIRMATION=false   disattiva l'email di conferma al cliente
+//   CONTACT_CONFIRMATION=true    attiva l'email di conferma al cliente (predefinito: disattivata,
+//                                perche' il modulo e' pubblico e la conferma verrebbe spedita a
+//                                qualunque indirizzo digitato)
 
 import nodemailer from "nodemailer";
 import { DEFAULTS, EMAIL_RE, brand } from "../config/settings.mjs";
@@ -39,7 +41,7 @@ export function readMailSettings(env = process.env) {
       // Solo per prove in locale: in produzione la connessione deve essere sempre cifrata
       allowPlaintext: env.SMTP_ALLOW_PLAINTEXT === "true",
     },
-    sendConfirmation: env.CONTACT_CONFIRMATION !== "false",
+    sendConfirmation: env.CONTACT_CONFIRMATION === "true",
     siteUrl: (clean(env.NEXT_PUBLIC_SITE_URL) ?? "").replace(/\/$/, ""),
   };
 }
@@ -102,10 +104,10 @@ export async function sendOwnerEmail(s, transport, { nome, email, messaggio, att
 }
 
 /** Conferma di ricezione al cliente: non riporta il testo del messaggio. */
-export async function sendConfirmationEmail(s, transport, { nome, email, hadAttachment }) {
+export async function sendConfirmationEmail(s, transport, { email, hadAttachment }) {
   const privacyUrl = s.siteUrl ? `${s.siteUrl}/privacy` : null;
   const lines = [
-    `Gentile ${oneLine(nome)},`,
+    "Buongiorno,",
     "",
     "abbiamo ricevuto la tua richiesta di consulenza e ti risponderemo al più presto a questo indirizzo.",
     hadAttachment ? "Abbiamo ricevuto anche il documento che hai allegato." : null,

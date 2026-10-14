@@ -132,8 +132,11 @@ function openBrowser(url) {
 }
 
 // ---- Vercel (usa la sessione gia' presente del CLI)
+// Versione bloccata: niente codice "ultima versione" scaricato al momento
+const VERCEL_CLI = "vercel@64.0.2";
+
 function vercel(args, input) {
-  return spawnSync("npx", ["--yes", "vercel@latest", ...args, "--scope", SCOPE], {
+  return spawnSync("npx", ["--yes", VERCEL_CLI, ...args, "--scope", SCOPE], {
     cwd: projectDir,
     input,
     encoding: "utf8",
@@ -277,7 +280,7 @@ if (SIM) {
       fd.set("privacy", "on");
       const r = await fetch(`${SITE}/api/contact`, { method: "POST", body: fd });
       const j = await r.json().catch(() => ({}));
-      say(r.ok && j.ok ? `  ✓ Modulo del sito pubblico: INVIATO. Arrivano 2 email a ${to} (richiesta + conferma).` : `  ✗ Modulo del sito pubblico: HTTP ${r.status} ${j.error ?? ""} ${j.code ?? ""}`);
+      say(r.ok && j.ok ? `  ✓ Modulo del sito pubblico: INVIATO. La richiesta è arrivata a ${to}.` : `  ✗ Modulo del sito pubblico: HTTP ${r.status} ${j.error ?? ""} ${j.code ?? ""}`);
     }
   } catch (e) {
     say(`  ✗ Test finale non riuscito: ${redact(e.message, secret)}`);

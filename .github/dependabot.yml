@@ -1,0 +1,11 @@
+# Controllo settimanale degli aggiornamenti di sicurezza delle dipendenze
+version: 2
+updates:
+  - package-ecosystem: "npm"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+    open-pull-requests-limit: 5
+    groups:
+      minori-e-patch:
+        update-types: ["minor", "patch"]

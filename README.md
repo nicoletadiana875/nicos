@@ -67,7 +67,7 @@ indirizza a email e WhatsApp.
 Il modulo invia i dati a `/api/contact`. Il server controlla tipo e firma del file (PDF/JPG/PNG,
 max 4 MB), applica un limite di richieste e un campo anti-spam, e spedisce un'email al destinatario
 con l'allegato. **I file non vengono salvati sul server e non esistono link pubblici**: restano solo
-nella casella di posta. Al cliente arriva una conferma che non riporta il testo del messaggio.
+nella casella di posta. La conferma al cliente è disattivata di default (vedi `CONTACT_CONFIRMATION` in `.env.example`).
 
 ## Privacy e cookie
 
@@ -153,3 +153,23 @@ Google, tutte le password per le app vengono revocate automaticamente.
 
 Sicurezza: `.env.local` è ignorato da git, la password non è mai nel codice, non viene stampata
 nei log e non arriva mai al browser (non inizia con `NEXT_PUBLIC_`).
+
+## Sicurezza
+
+Misure già attive nel codice: intestazioni di sicurezza (CSP, HSTS, COOP/CORP, `frame-ancestors`),
+modulo contatti con controllo dell'origine, tetto in byte sul corpo della richiesta, controllo del
+tipo reale dei file, limite di invii per indirizzo e complessivo, email di conferma al cliente
+disattivata, nessun dato personale nei log, `.env.local` mai su git.
+
+Da fare a mano (non si può fare dal codice):
+
+1. **Firewall di Vercel**: Project > Firewall > Custom Rules > nuova regola "Limite modulo":
+   se *Request Path* uguale a `/api/contact` e *Method* uguale a `POST` → azione *Rate Limit*,
+   5 richieste ogni 10 minuti per IP. Il contatore interno del sito è per istanza e non basta da solo.
+2. **Verifica in due passaggi** su GitHub, Vercel e sull'account Google che invia le email.
+3. **GitHub**: Settings > Code security > attiva *Dependabot alerts* e *Secret scanning*;
+   se il codice non deve essere pubblico, imposta la repository su *Private*.
+4. **Password per le app Gmail** dedicata a questo sito: se sospetti un abuso, revocala da
+   https://myaccount.google.com/apppasswords e ne crei un'altra con `npm run attiva:email`.
+5. Allegati dei clienti: aprili solo se la richiesta è attesa (il sito verifica il tipo di file,
+   ma non può sapere se un PDF contiene codice dannoso).
