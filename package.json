@@ -13,13 +13,13 @@
     "attiva:email": "node scripts/attiva.mjs email"
   },
   "dependencies": {
-    "framer-motion": "^14.0.0",
+    "framer-motion": "^14.1.0",
     "next": "15.5.27",
     "nodemailer": "^10.1.0",
-    "react": "19.0.0",
-    "react-dom": "19.0.0"
+    "react": "19.3.0",
+    "react-dom": "19.3.0"
   },
   "devDependencies": {
-    "playwright": "^1.60.0"
+    "playwright": "^1.64.0"
   }
 }
