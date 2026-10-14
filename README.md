@@ -137,6 +137,21 @@ Per provare l'invio reale con la tua casella: compila `SMTP_PASS` in `.env.local
 3. variabili d'ambiente impostate su Vercel e `npm run test:email` riuscito;
 4. prova reale del modulo (con allegato) e dei pulsanti WhatsApp/Chiama dal telefono.
 
+## Attivazione guidata in un solo comando
+
+```bash
+npm run attiva:email        # invio email del modulo contatti (password per le app Gmail)
+npm run attiva:stoccaggi    # riquadro stoccaggi gas Italia (chiave gratuita AGSI+)
+```
+
+Ogni comando apre la pagina giusta, ti fa incollare il segreto (nascosto, mai stampato), lo **prova
+subito** (login al server di posta / chiamata ad AGSI+), lo salva solo in `.env.local` e, se confermi,
+lo carica su Vercel come variabile riservata, ripubblica il sito e fa un test finale dal sito pubblico.
+Se la prova fallisce non viene salvato nulla.
+
+Per la password Gmail serve la verifica in due passaggi: senza, la pagina delle password per le app
+non esiste. La procedura manuale resta descritta qui sotto.
+
 ## Attivare l'invio email con Gmail (password per le app)
 
 Il sito non usa la password normale del tuo account Google: usa una **password per le app**, valida
