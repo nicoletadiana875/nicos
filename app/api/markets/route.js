@@ -25,13 +25,13 @@ export async function GET(request) {
 
   try {
     const data = await getMarketsData();
-    const anyLive = data.electricity.status === "live" || data.gas.status === "live";
+    const anyLive = data.gas.status === "live";
     return NextResponse.json(data, {
       headers: {
         "X-RateLimit-Remaining": String(remaining),
-        // Cache breve: i prezzi day-ahead cambiano una volta al giorno, ma l'ora corrente cambia
+        // Il valore cambia una volta al mese: cache lunga lato CDN
         "Cache-Control": anyLive
-          ? "public, s-maxage=300, stale-while-revalidate=300"
+          ? "public, s-maxage=3600, stale-while-revalidate=3600"
           : "no-store",
         ...CORS_HEADERS,
       },

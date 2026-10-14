@@ -123,9 +123,9 @@ export const servicesContent = {
 };
 
 export const marketsContent = {
-  title: "Mercati luce e gas",
+  title: "Mercato del gas",
   description:
-    "Area informativa predisposta per integrare dati reali PUN e PSV in modo leggibile e utile alla consulenza.",
+    "Il riferimento all'ingrosso del prezzo del gas in Italia, aggiornato ogni mese.",
   noteTitle: "Perché questa sezione è strategica",
   noteText:
     "Gli indici non sono un elemento decorativo: servono a contestualizzare prezzi e decisioni commerciali con maggiore precisione.",

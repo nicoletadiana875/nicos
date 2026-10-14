@@ -83,30 +83,15 @@ nella casella di posta. Al cliente arriva una conferma che non riporta il testo 
   (`legal.version`). Il consenso promozionale, separato e facoltativo, si attiva con
   `collectPromoConsent: true` in `src/config/legal.mjs`.
 
-## Dati di mercato luce e gas
+## Dato di mercato mostrato
 
-- **PUN e gas (ufficiali)**: API del GME (`GME_API_USER`, `GME_API_PASSWORD`). Dataset usati:
-  `ME_ZonalPrices` (zona `PUN`, MGP) e `GAS_IGIndex` (indice IGI).
-  **Licenza**: le condizioni generali dell'API (artt. 5 e 6) consentono solo un uso informativo e
-  privato e vietano usi economici/commerciali senza consenso scritto di GME. Per questo
-  l'integrazione e' spenta finche' non e' impostata anche `GME_COMMERCIAL_LICENSE=confirmed`, da
-  fare solo dopo aver ottenuto la licenza (contatto: info@mercatoelettrico.org).
-  Quando e' attiva il sito riporta "Fonte: Gestore dei Mercati Energetici S.p.A.".
-- **Gas, PSV medio del mese** (ARERA): ogni mese ARERA pubblica il valore della materia prima gas,
-  calcolato come media mensile del PSV day-ahead. Il sito lo legge da solo (nota stampa mensile) e lo
-  mostra con il mese di riferimento e la fonte. Riuso consentito citando la fonte (CC BY-SA 4.0);
-  non si usano logo e pagine. Vedi `src/lib/psv.js`.
-- **Prezzi finali medi** (Eurostat, semestrali, nessuna chiave): famiglie e imprese, elettricita' e gas,
-  con confronto con la media UE. Riuso commerciale consentito citando la fonte. Sono sempre mostrati
-  con il periodo di riferimento; non sono dati in tempo reale.
-- **Stoccaggi gas Italia** (GIE AGSI+): si attivano impostando `AGSI_API_KEY` (chiave gratuita, vedi
-  `.env.example`). Senza chiave il riquadro non compare.
-- **Collegamenti in tempo reale**: la sezione Mercati rimanda alle pagine ufficiali (GME, Energy-Charts)
-  elencate in `src/config/marketLinks.mjs`. Sono semplici link, non riproducono dati.
-- **Elettricita' senza credenziali GME**: prezzo day-ahead zona Nord da Energy-Charts
-  (dati Bundesnetzagentur | SMARD.de, licenza CC BY 4.0), indicato come tale.
-- Nessun valore e' scritto a mano o stimato. Se la fonte non risponde viene mostrato l'ultimo dato
-  reale ricevuto (entro 36 ore) marcato "non aggiornato", altrimenti "non disponibile".
+Il sito mostra **solo il PSV day-ahead medio del mese** (gas), letto da solo dalla nota che ARERA
+pubblica ogni mese. Si vede con il mese di riferimento e la fonte; riuso consentito citando la fonte
+(CC BY-SA 4.0), senza usare logo o pagine. Nessun valore e' stimato: oltre 4 mesi di ritardo non
+viene mostrato. Codice: `src/lib/psv.js`.
+
+I prezzi live (PUN, grafici) sono stati rimossi su richiesta. Per i dati ufficiali GME in
+tempo reale servirebbe una licenza commerciale scritta di GME.
 
 ## Pubblicazione e anteprima
 
@@ -145,11 +130,10 @@ Per provare l'invio reale con la tua casella: compila `SMTP_PASS` in `.env.local
 
 ```bash
 npm run attiva:email        # invio email del modulo contatti (password per le app Gmail)
-npm run attiva:stoccaggi    # riquadro stoccaggi gas Italia (chiave gratuita AGSI+)
 ```
 
-Ogni comando apre la pagina giusta, ti fa incollare il segreto (nascosto, mai stampato), lo **prova
-subito** (login al server di posta / chiamata ad AGSI+), lo salva solo in `.env.local` e, se confermi,
+Il comando apre la pagina giusta, ti fa incollare il segreto (nascosto, mai stampato), lo **prova
+subito** (login al server di posta), lo salva solo in `.env.local` e, se confermi,
 lo carica su Vercel come variabile riservata, ripubblica il sito e fa un test finale dal sito pubblico.
 Se la prova fallisce non viene salvato nulla.
 

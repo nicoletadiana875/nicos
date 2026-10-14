@@ -1,7 +1,6 @@
 // Attivazione guidata, in un solo comando.
 //
 //   npm run attiva:email        invio email del modulo contatti (password per le app Gmail)
-//   npm run attiva:stoccaggi    riquadro stoccaggi gas Italia (chiave gratuita AGSI+)
 //
 // Cosa fa, in ordine:
 //   1. apre nel browser la pagina dove si ottiene il segreto;
@@ -45,26 +44,11 @@ const CONFIG = {
     invalidMsg:
       "Non sembra una 'password per le app' di Google (sono 16 lettere, senza numeri). Non usare la password normale dell'account.",
   },
-  stoccaggi: {
-    envName: "AGSI_API_KEY",
-    url: "https://agsi.gie.eu/account",
-    title: "Stoccaggi di gas in Italia (GIE AGSI+)",
-    steps: [
-      "Si aprirà la pagina di accesso/registrazione di AGSI+.",
-      "Registrati con la tua email e conferma dal link che ti arriva.",
-      "Dopo l'accesso, nella pagina 'Account' copia la tua 'API key'.",
-      "Incollala qui sotto.",
-    ],
-    prompt: "Incolla la chiave API e premi Invio",
-    normalize: (v) => v.trim(),
-    valid: (v) => /^[A-Za-z0-9]{20,64}$/.test(v),
-    invalidMsg: "La chiave API di AGSI+ è una stringa di lettere e numeri (circa 32 caratteri).",
-  },
 };
 
 const cfg = CONFIG[mode];
 if (!cfg) {
-  console.error("Uso: node scripts/attiva.mjs email | stoccaggi");
+  console.error("Uso: node scripts/attiva.mjs email");
   process.exit(1);
 }
 
@@ -237,17 +221,7 @@ async function localTest() {
     return { ok: true, msg: `Login riuscito ed email di prova (con PDF) inviata a ${s.to}. Controlla la casella, anche lo spam.` };
   }
 
-  const base = process.env.AGSI_BASE || "https://agsi.gie.eu/api";
-  try {
-    const res = await fetch(`${base}?country=IT&size=3`, { headers: { "x-key": secret, Accept: "application/json" }, signal: AbortSignal.timeout(15000) });
-    const j = await res.json();
-    if (j.error) return { ok: false, msg: `AGSI+ ha rifiutato la chiave: ${j.message ?? j.error}` };
-    const row = (j.data ?? []).find((r) => r.full != null);
-    if (!row) return { ok: false, msg: "AGSI+ non ha restituito dati per l'Italia." };
-    return { ok: true, msg: `Chiave valida. Stoccaggi gas Italia: ${Number(row.full).toFixed(2)} % pieni al ${row.gasDayStart}.` };
-  } catch (e) {
-    return { ok: false, msg: `Chiamata ad AGSI+ non riuscita: ${redact(e.message, secret)}` };
-  }
+  return { ok: false, msg: "Modalità non supportata." };
 }
 
 say("\n  Provo il segreto...");
@@ -304,10 +278,6 @@ if (SIM) {
       const r = await fetch(`${SITE}/api/contact`, { method: "POST", body: fd });
       const j = await r.json().catch(() => ({}));
       say(r.ok && j.ok ? `  ✓ Modulo del sito pubblico: INVIATO. Arrivano 2 email a ${to} (richiesta + conferma).` : `  ✗ Modulo del sito pubblico: HTTP ${r.status} ${j.error ?? ""} ${j.code ?? ""}`);
-    } else {
-      const r = await fetch(`${SITE}/api/markets`, { cache: "no-store" });
-      const j = await r.json();
-      say(j.gasStorage ? `  ✓ Sul sito pubblico: stoccaggi gas Italia ${Number(j.gasStorage.percent).toFixed(2)} % (al ${j.gasStorage.date}).` : "  ✗ Il riquadro stoccaggi non risulta ancora attivo sul sito pubblico (riprova tra un minuto).");
     }
   } catch (e) {
     say(`  ✗ Test finale non riuscito: ${redact(e.message, secret)}`);

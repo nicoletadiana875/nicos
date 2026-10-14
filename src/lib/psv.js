@@ -20,7 +20,7 @@ const MONTHS = [
 
 export const PSV_SOURCE_NAME = "ARERA (valore pubblicato ogni mese, licenza CC BY-SA 4.0)";
 
-let cache = { at: 0, ttl: 0, value: undefined };
+let cache = { at: 0, ttl: 0, hit: undefined };
 
 const headers = {
   "User-Agent": "SitoConsulenteEnergetico/1.0 (lettura valore mensile pubblicato)",
@@ -124,32 +124,36 @@ async function lookup(now = new Date(), skipListing = false) {
   return null;
 }
 
+function shape(hit, now) {
+  if (!hit) return null;
+  return {
+    value: hit.value,
+    unit: "€/MWh",
+    month: `${hit.year}-${String(hit.monthIndex + 1).padStart(2, "0")}`,
+    monthLabel: `${MONTHS[hit.monthIndex]} ${hit.year}`,
+    monthsBehind: now.getUTCFullYear() * 12 + now.getUTCMonth() - (hit.year * 12 + hit.monthIndex),
+    url: hit.url,
+  };
+}
+
 /**
  * { value, unit, month: "2026-09", monthLabel: "settembre 2026", monthsBehind, url } oppure null.
- * Non lancia errori: se ARERA non risponde restituisce null (e riprova dopo 30 minuti).
+ * Non lancia errori: se ARERA non risponde restituisce l'ultimo mese gia' letto (se c'e'),
+ * altrimenti null, e riprova dopo 30 minuti.
  */
 export async function getMonthlyPsv(now = new Date(), { skipListing = false } = {}) {
   const scale = Number(process.env.MARKETS_CACHE_SCALE ?? 1);
-  if (cache.value !== undefined && Date.now() - cache.at < cache.ttl * scale) return cache.value;
+  if (cache.hit !== undefined && Date.now() - cache.at < cache.ttl * scale) return shape(cache.hit, now);
 
-  let value = null;
+  let hit = null;
   try {
-    const hit = await lookup(now, skipListing);
-    if (hit) {
-      const monthsBehind = now.getUTCFullYear() * 12 + now.getUTCMonth() - (hit.year * 12 + hit.monthIndex);
-      value = {
-        value: hit.value,
-        unit: "€/MWh",
-        month: `${hit.year}-${String(hit.monthIndex + 1).padStart(2, "0")}`,
-        monthLabel: `${MONTHS[hit.monthIndex]} ${hit.year}`,
-        monthsBehind,
-        url: hit.url,
-      };
-    }
+    hit = await lookup(now, skipListing);
   } catch (error) {
     console.error("[psv]", error?.message ?? error);
   }
 
-  cache = { at: Date.now(), ttl: value ? OK_TTL : FAIL_TTL, value };
-  return value;
+  // Se la lettura fallisce si tiene l'ultimo mese reale gia' ottenuto
+  const kept = hit ?? cache.hit ?? null;
+  cache = { at: Date.now(), ttl: hit ? OK_TTL : FAIL_TTL, hit: kept };
+  return shape(kept, now);
 }

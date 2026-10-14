@@ -10,16 +10,14 @@
     "test:email": "node scripts/test-email.mjs",
     "check:legal": "node scripts/check-legal.mjs",
     "setup:email": "node scripts/set-smtp-password.mjs",
-    "attiva:email": "node scripts/attiva.mjs email",
-    "attiva:stoccaggi": "node scripts/attiva.mjs stoccaggi"
+    "attiva:email": "node scripts/attiva.mjs email"
   },
   "dependencies": {
     "framer-motion": "^14.0.0",
     "next": "15.5.27",
     "nodemailer": "^10.1.0",
     "react": "19.0.0",
-    "react-dom": "19.0.0",
-    "recharts": "^3.8.1"
+    "react-dom": "19.0.0"
   },
   "devDependencies": {
     "playwright": "^1.60.0"

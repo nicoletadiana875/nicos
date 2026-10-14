@@ -376,7 +376,7 @@ export const termsDoc = {
       title: "6. Dati di mercato",
       blocks: [
         {
-          p: "I prezzi dell'energia riportati nel sito (elettricità e gas) hanno finalità informativa. Provengono dalle fonti indicate accanto a ciascun valore e possono subire ritardi, interruzioni o revisioni. Non costituiscono offerta, garanzia di prezzo né consulenza finanziaria. Quando una fonte non è disponibile il sito lo indica e non mostra valori stimati.",
+          p: "Il valore del gas riportato nel sito (PSV day-ahead, media mensile) ha finalità informativa. Proviene dalla fonte indicata accanto al valore (ARERA) e può subire ritardi o revisioni. Non costituisce offerta, garanzia di prezzo né consulenza finanziaria. Quando la fonte non è disponibile il sito lo indica e non mostra valori stimati.",
         },
       ],
     },
