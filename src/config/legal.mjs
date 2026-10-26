@@ -16,13 +16,13 @@ import { brand, contact, phoneDisplay } from "./settings.mjs";
 
 export const legal = {
   // true = le pagine mostrano l'avviso "bozza" e chiedono ai motori di ricerca di non indicizzarle
-  draft: true,
+  draft: false,
 
   // Identificativo della versione delle informative: viene registrato insieme a ogni richiesta
   // ricevuta per poter dimostrare quale testo era visibile al momento dell'invio.
   // Aggiornalo ogni volta che modifichi i testi in modo sostanziale.
-  version: "2026-10-13-bozza",
-  lastUpdated: "13 ottobre 2026",
+  version: "2026-10-26",
+  lastUpdated: "26 ottobre 2026",
 
   // Raccogliere un consenso SEPARATO e facoltativo per comunicazioni promozionali?
   // Lascia false finche' non svolgi davvero attivita' promozionali/newsletter.
