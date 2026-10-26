@@ -60,6 +60,14 @@ export const whatsappUrl = `https://wa.me/${contact.whatsapp}`;
 export const whatsappDisplay = formatPhone(`+${contact.whatsapp}`);
 export const siteUrl = (clean(process.env.NEXT_PUBLIC_SITE_URL) ?? "").replace(/\/$/, "");
 
+// Indirizzo assoluto per sitemap, robots e anteprime social. Ordine: NEXT_PUBLIC_SITE_URL,
+// poi il dominio di produzione assegnato da Vercel, poi localhost (solo sviluppo).
+export const baseUrl =
+  siteUrl ||
+  (clean(process.env.VERCEL_PROJECT_PRODUCTION_URL)
+    ? `https://${clean(process.env.VERCEL_PROJECT_PRODUCTION_URL)}`
+    : "http://localhost:3000");
+
 export const brand = {
   name: "Consulente Energetico",
   consultantName: "Nicoleta Diana Stinga",

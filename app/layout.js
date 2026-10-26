@@ -2,6 +2,7 @@ import "./globals.css";
 import { Outfit } from "next/font/google";
 import ConsentManager from "@/components/site/ConsentManager";
 import { legal } from "@/config/legal.mjs";
+import { baseUrl } from "@/config/settings.mjs";
 
 const outfit = Outfit({
   subsets: ["latin"],
@@ -11,6 +12,7 @@ const outfit = Outfit({
 });
 
 export const metadata = {
+  metadataBase: new URL(baseUrl),
   // Finche' i testi legali sono in bozza (legal.draft) il sito non viene indicizzato
   robots: legal.draft ? { index: false, follow: false } : undefined,
   title: "Consulente Energetico | Consulenza commerciale luce e gas",
