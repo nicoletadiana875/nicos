@@ -346,10 +346,10 @@ export const termsDoc = {
     },
     {
       id: "fornitori",
-      title: "4. Rapporti con i fornitori di energia e provvigioni",
+      title: "4. Rapporti con i fornitori di energia",
       blocks: [
         {
-          p: "Di seguito sono indicati i rapporti dell'attività con i fornitori di energia elettrica e gas e le eventuali provvigioni o compensi da essi percepiti.",
+          p: "Di seguito sono indicati i rapporti dell'attività con i fornitori di energia elettrica e gas.",
         },
         { p: "{{terms.supplierRelationship}}" },
         {

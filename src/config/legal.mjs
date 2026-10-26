@@ -67,7 +67,7 @@ export const legal = {
   terms: {
     fees: "Al cliente non viene richiesto alcun compenso per la consulenza", // condizioni economiche verso il cliente
     supplierRelationship:
-      "Collaboro con più fornitori di energia elettrica e gas, senza limitarmi alle offerte di uno solo.", // mandati, provvigioni, indipendenza
+      "Collaboro con più fornitori di energia elettrica e gas, senza limitarmi alle offerte di uno solo.", // rapporto con i fornitori
     jurisdiction: "", // foro/legge applicabile se diversi dalle regole generali
   },
 };
@@ -87,7 +87,7 @@ export const fieldLabels = {
   "providers.hosting": "fornitore di hosting del sito",
   "providers.hostingLocation": "sede dei server del sito",
   "terms.fees": "compensi e condizioni economiche del servizio",
-  "terms.supplierRelationship": "rapporto con i fornitori di energia e con eventuali provvigioni",
+  "terms.supplierRelationship": "rapporto con i fornitori di energia",
   "terms.jurisdiction": "foro e legge applicabile",
 };
 
