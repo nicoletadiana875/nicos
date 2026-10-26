@@ -156,6 +156,18 @@ export const whyChooseContent = {
   ]
 };
 
+// Medie mensili di mercato (€/MWh). Da aggiornare ogni mese, con i valori ufficiali:
+//  - PUN: PUN Index GME, "Prezzo medio per fasce" su gme.mercatoelettrico.org
+//  - PSV: media mensile del PSV day-ahead pubblicata da ARERA (valore CMEM,m)
+export const marketStats = {
+  month: "settembre 2026",
+  note: "Medie mensili in €/MWh. Valori indicativi, non costituiscono un'offerta.",
+  items: [
+    { value: 207.54, label: "PUN Index GME", source: "Fonte: GME" },
+    { value: 78.8, label: "PSV day-ahead", source: "Fonte: ARERA" }
+  ]
+};
+
 export const contactContent = {
   title: "Contatti",
   description:

@@ -29,7 +29,11 @@ export default function AnimatedCounter({
     raf = requestAnimationFrame(tick);
     return () => cancelAnimationFrame(raf);
   }, [inView, value, duration, reduce]);
-  const display = n.toFixed(decimals);
+  // Formato italiano (virgola decimale): 207,54
+  const display = n.toLocaleString("it-IT", {
+    minimumFractionDigits: decimals,
+    maximumFractionDigits: decimals,
+  });
   return (
     <span ref={ref}>
       {prefix}

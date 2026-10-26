@@ -966,9 +966,26 @@
 
 .statsGrid {
   display: grid;
-  grid-template-columns: repeat(4, minmax(0, 1fr));
+  grid-template-columns: repeat(2, minmax(0, 1fr));
   gap: clamp(14px, 1.8vw, 22px);
-  margin-top: clamp(28px, 3.4vw, 46px);
+  max-width: 820px;
+  margin: clamp(28px, 3.4vw, 46px) auto 0;
+}
+
+.statSource {
+  display: block;
+  margin-top: 4px;
+  color: var(--text-muted);
+  font-size: 0.78rem;
+}
+
+.statsNote {
+  margin: 14px auto 0;
+  max-width: 820px;
+  text-align: center;
+  color: var(--text-muted);
+  font-size: 0.82rem;
+  line-height: 1.5;
 }
 
 .statItem {

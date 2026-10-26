@@ -32,7 +32,7 @@ export const legal = {
     name: brand.consultantName, // nome gia' presente sul sito
     activity: brand.name,
     role: "Agente di vendita",
-    address: "",
+    address: "Via Sibillini 28, Porto Sant'Elpidio (FM)",
     vatNumber: "",
     taxCode: "",
     pec: "",
@@ -54,7 +54,7 @@ export const legal = {
 
   providers: {
     // Rilevato dalla configurazione del progetto: il repository e' collegato a Vercel
-    // (deploy automatici da GitHub, indirizzo nicos-zeta.vercel.app). Da confermare nel pannello Vercel.
+    // (deploy automatici da GitHub, indirizzo consulente-energetico.vercel.app). Da confermare nel pannello Vercel.
     hosting: "Vercel Inc. (piattaforma di hosting)",
     // Le funzioni del sito (quindi il modulo contatti) sono vincolate alla regione di Francoforte
     // da vercel.json. I contenuti statici sono distribuiti dalla rete globale del fornitore.
@@ -66,7 +66,8 @@ export const legal = {
 
   terms: {
     fees: "Al cliente non viene richiesto alcun compenso per la consulenza", // condizioni economiche verso il cliente
-    supplierRelationship: "", // rapporto con i fornitori di energia (mandati, provvigioni, indipendenza)
+    supplierRelationship:
+      "Collaboro con più fornitori di energia elettrica e gas, senza limitarmi alle offerte di uno solo.", // mandati, provvigioni, indipendenza
     jurisdiction: "", // foro/legge applicabile se diversi dalle regole generali
   },
 };
