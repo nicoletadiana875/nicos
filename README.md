@@ -85,11 +85,15 @@ nella casella di posta. La conferma al cliente è disattivata di default (vedi `
 
 ## Pubblicazione e anteprima
 
-**Hosting rilevato: Vercel** (repository collegato, indirizzo `nicos-zeta.vercel.app`, deploy
-automatici da GitHub). Ne derivano alcune regole:
+**Hosting rilevato: Vercel** (repository collegato, indirizzo `consulente-energetico.vercel.app`,
+deploy automatici da GitHub). Ne derivano alcune regole:
 
-- Un `push` sul ramo **master** pubblica subito il sito online. Un push su un altro ramo crea solo
-  un'anteprima (Preview) di Vercel.
+- Il ramo di produzione di Vercel e' **main**: un `push` su `main` pubblica subito il sito online.
+  Un push su un altro ramo (compreso `master`) crea solo un'anteprima (Preview). Per pubblicare il
+  lavoro fatto su `master`: `git push origin master:main`.
+- `NEXT_PUBLIC_SITE_URL` su Vercel (Production) vale `https://consulente-energetico.vercel.app`:
+  sitemap e anteprime social usano quell'indirizzo. Se colleghi un dominio vero, aggiornala e
+  ripubblica.
 - Le variabili d'ambiente dell'elenco in `.env.example` vanno inserite in **Vercel > Settings >
   Environment Variables** (per Production e, se vuoi provare, Preview): senza `SMTP_*` il modulo
   non invia. Dopo averle cambiate serve un nuovo deploy.
