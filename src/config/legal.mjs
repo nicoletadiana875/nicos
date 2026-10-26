@@ -31,7 +31,7 @@ export const legal = {
   controller: {
     name: brand.consultantName, // nome gia' presente sul sito
     activity: brand.name,
-    role: "", // es. ditta individuale, libera professionista, agente... (da stabilire)
+    role: "Agente di vendita",
     address: "",
     vatNumber: "",
     taxCode: "",
@@ -65,7 +65,7 @@ export const legal = {
   },
 
   terms: {
-    fees: "", // compensi/condizioni economiche oltre alla prima analisi gratuita
+    fees: "Al cliente non viene richiesto alcun compenso per la consulenza", // condizioni economiche verso il cliente
     supplierRelationship: "", // rapporto con i fornitori di energia (mandati, provvigioni, indipendenza)
     jurisdiction: "", // foro/legge applicabile se diversi dalle regole generali
   },

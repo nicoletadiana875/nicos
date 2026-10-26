@@ -337,10 +337,10 @@ export const termsDoc = {
     },
     {
       id: "gratuita",
-      title: "3. Prima analisi e condizioni economiche",
+      title: "3. Condizioni economiche",
       blocks: [
         {
-          p: "Come indicato nel sito, la prima analisi è gratuita e senza impegno. Per le attività ulteriori: {{terms.fees}}.",
+          p: "Come indicato nel sito, la consulenza è gratuita e senza impegno. {{terms.fees}}.",
         },
       ],
     },
