@@ -13,6 +13,8 @@ const outfit = Outfit({
 
 export const metadata = {
   metadataBase: new URL(baseUrl),
+  // Verifica della proprieta' del sito su Google Search Console
+  verification: { google: "4vnjmIv1NkrvGx_fa-WWu8iYSOaWUmBDyAdSY4wQoks" },
   // Finche' i testi legali sono in bozza (legal.draft) il sito non viene indicizzato
   robots: legal.draft ? { index: false, follow: false } : undefined,
   title: "Consulente Energetico | Consulenza commerciale luce e gas",
